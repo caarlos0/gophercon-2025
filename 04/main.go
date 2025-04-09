@@ -21,7 +21,7 @@ func main() {
 	))
 
 	srv, err := wish.NewServer(
-		wish.WithAddress("localhost:23234"),
+		wish.WithAddress("0.0.0.0:23234"),
 
 		wish.WithPublicKeyAuth(func(_ ssh.Context, key ssh.PublicKey) bool {
 			log.Info("public key")
