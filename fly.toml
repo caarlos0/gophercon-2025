@@ -1,0 +1,20 @@
+app = 'gophercon-talk'
+primary_region = 'lax'
+kill_signal = "SIGTERM"
+
+[build]
+
+[[services]]
+internal_port = 23234
+protocol = "tcp"
+[[services.ports]]
+port = 22
+
+[[vm]]
+memory = '256mb'
+cpu_kind = 'shared'
+cpus = 1
+
+[mounts]
+source = "ssh_key"
+destination = "/app/.ssh"
