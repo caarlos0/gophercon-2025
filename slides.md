@@ -223,7 +223,7 @@ timeline
 
 ![](bg.mov)
 
-- Start with an ESC (\e, ^[, \033, or \x1b)
+- Start with an ESC (`\e`, `^[`, `\033`, or `\x1b`)
 - Several types of sequences: ESC, CSI, OSC, DCS, APC
 
 ```bash
@@ -235,10 +235,10 @@ printf '\eP+q636F6C73\e\'
 ```
 
 ^ ESC save cursor position
-^ Control seq introducer prints text in yellow
-^ CSI enable kitty extended terminal
-^ OS Command sets term title
-^ DCS device control string request terminal capabilities, in this case, cols
+Control seq introducer prints text in yellow
+CSI enable kitty extended terminal
+OS Command sets term title
+DCS device control string request terminal capabilities, in this case, cols
 
 ---
 
