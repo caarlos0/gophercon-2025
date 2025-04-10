@@ -1,0 +1,2 @@
+bg.mov filter=lfs diff=lfs merge=lfs -text
+og.mov filter=lfs diff=lfs merge=lfs -text
