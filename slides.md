@@ -676,9 +676,17 @@ in this example, its 3 static questions, but you can do whatever you want, there
 
 # Thank you!
 
+![](bg.mov)
+
 ## Questions?
 
+---
+
 ![](bg.mov)
+
+- https://charm.sh
+- https://caarlos0.dev
+- https://goreleaser.com
 
 <!-- # TODO: add more images -->
 <!---->
