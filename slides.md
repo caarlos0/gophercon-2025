@@ -6,13 +6,13 @@ theme: Charm
 
 # Serving TUIs over SSH using Go ✨
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 ---
 
 # Why even bother?
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 Isn't the world basically web apps now?
 
@@ -31,7 +31,7 @@ there's no insecure secure shell
 
 # $ whoami
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 Carlos Alexandro Becker
 
@@ -46,7 +46,7 @@ Carlos Alexandro Becker
 
 # Agenda
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 What we'll talk about today
 
@@ -66,7 +66,7 @@ questions
 
 # Command Line Interfaces
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 - User gives input through commands, gets results printed below them
 - Might also take inputs through args, flags, environment variables
@@ -79,7 +79,7 @@ questions
 
 # Text-based User Interfaces
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 - Present themselves as an interactive application, using ASCII and Unicode characters to drawn the user interface
 - Usually mimics text inputs, buttons, etc
@@ -95,7 +95,7 @@ questions
 
 # When to use TUIs or CLIs?
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 It depends...
 
@@ -109,13 +109,13 @@ It depends...
 
 # Terminals 101
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 ---
 
 # Typewriters
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 ![inline](https://charm.sh/typewriter.84227b29dbcbcea4.jpg)
 
@@ -127,7 +127,7 @@ these artifacts of the past are still there today, like `\r\n`
 
 # Teletype Writers (TTY)
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 ![inline](https://charm.sh/Teletype_model_33_asr.80233f95c693bbe9.jpg)
 
@@ -141,7 +141,7 @@ TTY still used today to refer to terminals, emulated or otherwise
 
 # Computer Terminals
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 ![inline](https://charm.sh/DEC_VT100_terminal.309584cced5167e.jpg)
 
@@ -153,7 +153,7 @@ VT100 1978
 
 # Terminal Emulators
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 ![right fit](https://charm.sh/xterm-menus.af521a074c1bae30.gif)
 
@@ -170,7 +170,7 @@ whatever it is you call a terminal today, is actually a terminal emulator - its 
 
 # ANSI & ECMA-48
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 - ANSI was the first standard
 - Colors, Cursor movement, etc
@@ -188,7 +188,7 @@ all that said, no one calls them ecma-48 sequenences
 
 This is probably incorrect:
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 ```mermaid
 timeline
@@ -221,7 +221,7 @@ timeline
 
 # ANSI sequences
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 - Start with an ESC (`\e`, `^[`, `\033`, or `\x1b`)
 - Several types of sequences: ESC, CSI, OSC, DCS, APC
@@ -244,7 +244,7 @@ DCS device control string request terminal capabilities, in this case, cols
 
 # Time to Go
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 We can do the same with Lip Gloss and x/ansi
 
@@ -268,7 +268,7 @@ Most of the time, you'll only need lipgloss though
 
 ---
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 ![inline](./freeze.png)
 
@@ -278,7 +278,7 @@ Most of the time, you'll only need lipgloss though
 
 # The Secure SHell
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 ^ Now that we learned a bit about terminals, and ansi sequences, lets move into ssh
 
@@ -288,7 +288,7 @@ Most of the time, you'll only need lipgloss though
 
 # SSH
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 - widely available
 - end-to-end public/private key encryption
@@ -308,7 +308,7 @@ finally, if you still use RSA, this is a public safety announcement: replace it 
 
 # SSH
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 Biggest problems:
 
@@ -324,7 +324,7 @@ Biggest problems:
 
 # Making a TUI
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 <!-- TODO: add an image here? -->
 
@@ -334,7 +334,7 @@ Biggest problems:
 
 # Bubble Tea
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 A powerful little TUI framework
 
@@ -356,7 +356,7 @@ A powerful little TUI framework
 
 The model:
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 ```go
 import tea "github.com/charmbracelet/bubbletea/v2"
@@ -373,7 +373,7 @@ if we need cursor handling, we would need to use tea.CursorModel instead
 
 # Bubble Tea
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 `Init`:
 
@@ -395,7 +395,7 @@ we also implement Init, which comes from the tea.Model interface - for our case 
 
 # Bubble Tea
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 `Update`:
 
@@ -418,7 +418,7 @@ Basically, we switch against its type, if its a keypress, we instruct the progra
 
 # Bubble Tea
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 `View`:
 
@@ -439,7 +439,7 @@ here, we create a style, and render stopwatch's view - which is basically a stri
 
 # Bubble Tea
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 Run it:
 
@@ -464,7 +464,7 @@ notice we have a newModel func - this will come in handy in a few :)
 
 ---
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 ![inline](./g02.gif)
 
@@ -475,7 +475,7 @@ it aint much, but its honest work
 
 # Serving it over SSH
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 ^ now, let's finally serve these over ssh
 
@@ -483,7 +483,7 @@ it aint much, but its honest work
 
 # Wish
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 You can't just wish that... or can you?
 
@@ -505,7 +505,7 @@ for all that, we'll need these imports
 
 # Wish
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 Creating a server:
 
@@ -533,7 +533,7 @@ and we check errors, of course
 
 # Wish
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 Starting the server:
 
@@ -553,7 +553,7 @@ server closed happens when the server is stopped, and its not bad in this partic
 
 ^ and here we are, running the same app as before, now over ssh!
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 ![inline](./g03.gif)
 
@@ -561,7 +561,7 @@ server closed happens when the server is stopped, and its not bad in this partic
 
 # Wish
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 Public Key authentication:
 
@@ -589,7 +589,7 @@ in this example I have my pub key hard coded, but in the so called real world yo
 
 # Wish
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 Password authentication:
 
@@ -611,7 +611,7 @@ this enables the viper cobra btw
 
 # Our app over SSH
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 Keyboard-interactive authentication:
 
@@ -644,7 +644,7 @@ in this example, its 3 static questions, but you can do whatever you want, there
 
 ---
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 ![inline](./g04.gif)
 
@@ -654,7 +654,7 @@ in this example, its 3 static questions, but you can do whatever you want, there
 
 # What's next?
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 ^ ok.. what now?
 
@@ -662,7 +662,7 @@ in this example, its 3 static questions, but you can do whatever you want, there
 
 # Next steps
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 ^ there's always more, isn't it?
 
@@ -676,17 +676,20 @@ in this example, its 3 static questions, but you can do whatever you want, there
 
 # Thank you!
 
-![](bg.mov)
+![autoplay](bg.mp4)
 
 ## Questions?
 
 ---
 
-![](bg.mov)
+[build-lists: false]
+
+![autoplay](bg.mp4)
 
 - https://charm.sh
 - https://caarlos0.dev
 - https://goreleaser.com
+- https://github.com/caarlos0/gophercon-2025
 
 <!-- # TODO: add more images -->
 <!---->
