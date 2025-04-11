@@ -6,13 +6,13 @@ theme: Charm
 
 # Serving TUIs over SSH using Go ✨
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 ---
 
 # Why even bother?
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 Isn't the world basically web apps now?
 
@@ -31,7 +31,7 @@ there's no insecure secure shell
 
 # $ whoami
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 Carlos Alexandro Becker
 
@@ -46,9 +46,7 @@ Carlos Alexandro Becker
 
 # Agenda
 
-![autoplay](bg.mp4)
-
-What we'll talk about today
+![autoplay mute loop](bg.mp4)
 
 - TUI vs CLI
 - Intro to terminals
@@ -64,9 +62,15 @@ questions
 
 ---
 
-# Command Line Interfaces
+![autoplay mute loop](bg.mp4)
 
-![autoplay](bg.mp4)
+# TUIs & CLIs
+
+---
+
+## Command Line Interfaces
+
+![autoplay mute loop](bg.mp4)
 
 - User gives input through commands, gets results printed below them
 - Might also take inputs through args, flags, environment variables
@@ -77,9 +81,9 @@ questions
 
 ---
 
-# Text-based User Interfaces
+## Text-based User Interfaces
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 - Present themselves as an interactive application, using ASCII and Unicode characters to drawn the user interface
 - Usually mimics text inputs, buttons, etc
@@ -93,9 +97,9 @@ questions
 
 ---
 
-# When to use TUIs or CLIs?
+## When to use one or the other?
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 It depends...
 
@@ -109,13 +113,13 @@ It depends...
 
 # Terminals 101
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 ---
 
-# Typewriters
+## Typewriters
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 ![inline](https://charm.sh/typewriter.84227b29dbcbcea4.jpg)
 
@@ -125,9 +129,9 @@ these artifacts of the past are still there today, like `\r\n`
 
 ---
 
-# Teletype Writers (TTY)
+## Teletype Writers (TTY)
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 ![inline](https://charm.sh/Teletype_model_33_asr.80233f95c693bbe9.jpg)
 
@@ -139,9 +143,9 @@ TTY still used today to refer to terminals, emulated or otherwise
 
 ---
 
-# Computer Terminals
+## Video Terminals
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 ![inline](https://charm.sh/DEC_VT100_terminal.309584cced5167e.jpg)
 
@@ -151,9 +155,9 @@ VT100 1978
 
 ---
 
-# Terminal Emulators
+## Terminal Emulators
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 ![right fit](https://charm.sh/xterm-menus.af521a074c1bae30.gif)
 
@@ -168,9 +172,9 @@ whatever it is you call a terminal today, is actually a terminal emulator - its 
 
 ---
 
-# ANSI & ECMA-48
+## ANSI & ECMA-48
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 - ANSI was the first standard
 - Colors, Cursor movement, etc
@@ -184,11 +188,11 @@ all that said, no one calls them ecma-48 sequenences
 
 ---
 
-# Brief timeline
+## Brief timeline
 
-This is probably incorrect:
+<!-- TODO: This is probably incorrect: -->
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 ```mermaid
 timeline
@@ -219,9 +223,9 @@ timeline
 
 ---
 
-# ANSI sequences
+## ANSI sequences
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 - Start with an ESC (`\e`, `^[`, `\033`, or `\x1b`)
 - Several types of sequences: ESC, CSI, OSC, DCS, APC
@@ -242,18 +246,18 @@ DCS device control string request terminal capabilities, in this case, cols
 
 ---
 
-# Time to Go
+## Time to Go
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 We can do the same with Lip Gloss and x/ansi
 
 ```go
-import "github.com/charmbracelet/lipgloss/v2"
-import "github.com/charmbracelet/x/ansi"
-```
+import (
+  "github.com/charmbracelet/lipgloss/v2")
+  "github.com/charmbracelet/x/ansi"
+)
 
-```go
 fmt.Print(ansi.RequestCursorPositionReport)
 style := lipgloss.NewStyle().Foreground(lipgloss.Yellow)
 lipgloss.Println(style.Render("Hello Gophercon!"))
@@ -268,7 +272,7 @@ Most of the time, you'll only need lipgloss though
 
 ---
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 ![inline](./freeze.png)
 
@@ -278,7 +282,7 @@ Most of the time, you'll only need lipgloss though
 
 # The Secure SHell
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 ^ Now that we learned a bit about terminals, and ansi sequences, lets move into ssh
 
@@ -286,9 +290,9 @@ Most of the time, you'll only need lipgloss though
 
 ---
 
-# SSH
+## SSH
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 - widely available
 - end-to-end public/private key encryption
@@ -306,9 +310,9 @@ finally, if you still use RSA, this is a public safety announcement: replace it 
 
 ---
 
-# SSH
+## SSH
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 Biggest problems:
 
@@ -324,7 +328,7 @@ Biggest problems:
 
 # Making a TUI
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 <!-- TODO: add an image here? -->
 
@@ -332,9 +336,9 @@ Biggest problems:
 
 ---
 
-# Bubble Tea
+## Bubble Tea
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 A powerful little TUI framework
 
@@ -352,16 +356,17 @@ A powerful little TUI framework
 
 ---
 
-# Bubble Tea
+## Bubble Tea
 
 The model:
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 ```go
 import tea "github.com/charmbracelet/bubbletea/v2"
 
 var _ tea.ViewModel = model{}
+
 type model struct {}
 ```
 
@@ -371,14 +376,15 @@ if we need cursor handling, we would need to use tea.CursorModel instead
 
 ---
 
-# Bubble Tea
+## Bubble Tea
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 `Init`:
 
 ```go
 import "github.com/charmbracelet/bubbles/v2/stopwatch"
+
 type model struct {
   sw stopwatch.Model
 }
@@ -393,9 +399,9 @@ we also implement Init, which comes from the tea.Model interface - for our case 
 
 ---
 
-# Bubble Tea
+## Bubble Tea
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 `Update`:
 
@@ -416,9 +422,9 @@ Basically, we switch against its type, if its a keypress, we instruct the progra
 
 ---
 
-# Bubble Tea
+## Bubble Tea
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 `View`:
 
@@ -437,11 +443,13 @@ here, we create a style, and render stopwatch's view - which is basically a stri
 
 ---
 
-# Bubble Tea
+## Bubble Tea
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 Run it:
+
+[.code-highlight: 2, 8-12]
 
 ```go
 func main() {
@@ -450,11 +458,10 @@ func main() {
     os.Exit(1)
   }
 }
+
 func newModel() model {
   return model{
-    stopwatch.New(
-      stopwatch.WithInterval(10 \* time.Second),
-    ),
+    stopwatch.New(stopwatch.WithInterval(10 * time.Second)),
   }
 }
 ```
@@ -464,7 +471,7 @@ notice we have a newModel func - this will come in handy in a few :)
 
 ---
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 ![inline](./g02.gif)
 
@@ -475,24 +482,26 @@ it aint much, but its honest work
 
 # Serving it over SSH
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 ^ now, let's finally serve these over ssh
 
 ---
 
-# Wish
+## Wish
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 You can't just wish that... or can you?
 
 ```go
-import "github.com/charmbracelet/log/v2"
-import "github.com/charmbracelet/ssh"
-import "github.com/charmbracelet/wish/v2"
-import "github.com/charmbracelet/wish/v2/logging"
-import btm "github.com/charmbracelet/wish/v2/bubbletea"
+import (
+  "github.com/charmbracelet/log/v2"
+  "github.com/charmbracelet/ssh"
+  "github.com/charmbracelet/wish/v2"
+  "github.com/charmbracelet/wish/v2/logging"
+  btm "github.com/charmbracelet/wish/v2/bubbletea"
+)
 ```
 
 ^ for that, we'll use charm's wish
@@ -503,9 +512,9 @@ for all that, we'll need these imports
 
 ---
 
-# Wish
+## Wish
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 Creating a server:
 
@@ -517,8 +526,8 @@ srv, err := wish.NewServer(
       return newModel(), nil
     }),
     logging.StructuredMiddleware(),
-    ),
-  )
+  ),
+)
 if err != nil {
   log.Fatal("Could not create wish server", "err", err)
 }
@@ -531,9 +540,9 @@ and we check errors, of course
 
 ---
 
-# Wish
+## Wish
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 Starting the server:
 
@@ -553,28 +562,28 @@ server closed happens when the server is stopped, and its not bad in this partic
 
 ^ and here we are, running the same app as before, now over ssh!
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 ![inline](./g03.gif)
 
 ---
 
-# Wish
+## Wish: auth methods
 
-![autoplay](bg.mp4)
-
-Public Key authentication:
+![autoplay mute loop](bg.mp4)
 
 ```go
-carlos, _, _, , \_ := ssh.ParseAuthorizedKey([]byte(
+carlos, _, _, , _ := ssh.ParseAuthorizedKey([]byte(
   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL...",
 ))
 ```
 
+[.code-highlight: 3-6]
+
 ```go
 srv, err := wish.NewServer(
   // ...
-  wish.WithPublicKeyAuth(func( ssh.Context, key ssh.PublicKey) bool {
+  wish.WithPublicKeyAuth(func(_ ssh.Context, key ssh.PublicKey) bool {
     log.Info("public key")
     return ssh.KeysEqual(key, carlos)
   }),
@@ -587,21 +596,21 @@ in this example I have my pub key hard coded, but in the so called real world yo
 
 ---
 
-# Wish
+## Wish: auth methods
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
-Password authentication:
+[.code-highlight: 3-6]
 
 ```go
 srv, err := wish.NewServer(
   // ...
-  wish.WithPasswordAuth(func(\_ ssh.Context, password string) bool {
+  wish.WithPasswordAuth(func(_ ssh.Context, password string) bool {
     log.Info("password")
     return password == "how you turn this on"
   }),
   // ...
-  )
+)
 ```
 
 ^ we can also use passwords, if public key is not what you need
@@ -609,34 +618,34 @@ this enables the viper cobra btw
 
 ---
 
-# Our app over SSH
+## Wish: auth methods
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
-Keyboard-interactive authentication:
+[.code-highlight: 3-19]
 
 ```go
 srv, err := wish.NewServer(
-// ...
-wish.WithKeyboardInteractiveAuth(func(\_ ssh.Context, ch
-  gossh.KeyboardInteractiveChallenge) bool {
-    log.Info("keyboard-interactive")
-    answers, err := ch(
-      "Welcome to my server!", "Please answer these questions:",
-      []string{
-        "♦ How much is 2+3: ",
-        "♦ Which editor is best, vim or emacs? ",
-        "♦ Tell me your best secret: ",
-      },
-      []bool{true, true, false},
-    )
-    if err != nil {
-      return false
-    }
-    return len(answers) == 3 && answers[0] == "5" &&
-          answers[1] == "vim" && answers[2] != ""
+  // ...
+  wish.WithKeyboardInteractiveAuth(func(_ ssh.Context, ch gossh.KeyboardInteractiveChallenge) bool {
+      log.Info("keyboard-interactive")
+      answers, err := ch(
+        "Welcome to my server!", "Please answer these questions:",
+        []string{
+          "♦ How much is 2+3: ",
+          "♦ Which editor is best, vim or emacs? ",
+          "♦ Tell me your best secret: ",
+        },
+        []bool{true, true, false},
+      )
+      if err != nil {
+        return false
+      }
+      return len(answers) == 3 && answers[0] == "5" &&
+            answers[1] == "vim" && answers[2] != ""
   }),
-// ...
+  // ...
+)
 ```
 
 ^ finally, we can use keyboard interactive challenges as well
@@ -644,7 +653,7 @@ in this example, its 3 static questions, but you can do whatever you want, there
 
 ---
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 ![inline](./g04.gif)
 
@@ -654,15 +663,15 @@ in this example, its 3 static questions, but you can do whatever you want, there
 
 # What's next?
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 ^ ok.. what now?
 
 ---
 
-# Next steps
+![autoplay mute loop](bg.mp4)
 
-![autoplay](bg.mp4)
+## Next steps
 
 ^ there's always more, isn't it?
 
@@ -674,9 +683,9 @@ in this example, its 3 static questions, but you can do whatever you want, there
 
 ---
 
-# Thank you!
+![autoplay mute loop](bg.mp4)
 
-![autoplay](bg.mp4)
+# Thank you!
 
 ## Questions?
 
@@ -684,7 +693,7 @@ in this example, its 3 static questions, but you can do whatever you want, there
 
 [build-lists: false]
 
-![autoplay](bg.mp4)
+![autoplay mute loop](bg.mp4)
 
 - https://charm.sh
 - https://caarlos0.dev
