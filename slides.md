@@ -731,16 +731,14 @@ ln6 name & instruction
 - [goreleaser.com](https://goreleaser.com)
 - [caarlos0/gophercon-2025](https://github.com/caarlos0/gophercon-2025)
 
-<!-- # TODO: add more images -->
-<!---->
+<!-- TODO: add more images -->
 <!-- - ssh handshake -->
 <!-- - bubbletea loop -->
 <!-- - some cool examples maybe? -->
-<!---->
-<!-- # TODO: add links to everything -->
-<!---->
-<!-- # TODO: pty vs tty? -->
-<!---->
-<!-- # TODO: maybe add some dates? -->
-<!---->
-<!-- ssh gophercon-talk.fly.dev -->
+<!-- TODO: add links to everything -->
+<!-- TODO: pty vs tty? -->
+<!-- TODO: maybe add some dates? -->
+<!-- TODO: ssh gophercon-talk.fly.dev -->
+<!-- TODO: show more wish options -->
+<!-- TODO: talk about server keys -->
+<!-- TODO: TOFU? -->
