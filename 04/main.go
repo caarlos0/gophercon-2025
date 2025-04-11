@@ -73,7 +73,7 @@ func main() {
 
 func newModel() model {
 	return model{
-		stopwatch.New(
+		sw: stopwatch.New(
 			stopwatch.WithInterval(time.Second),
 		),
 	}
@@ -82,12 +82,18 @@ func newModel() model {
 var _ tea.ViewModel = model{}
 
 type model struct {
-	sw stopwatch.Model
+	sw       stopwatch.Model
+	quitting bool
 }
 
 func (m model) Init() tea.Cmd { return m.sw.Start() }
 
 func (m model) View() string {
+	if m.quitting {
+		return lipgloss.NewStyle().
+			Foreground(lipgloss.BrightBlack).
+			Render("Bye!")
+	}
 	return lipgloss.NewStyle().
 		Foreground(lipgloss.Yellow).
 		Bold(true).
@@ -98,6 +104,7 @@ func (m model) View() string {
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg.(type) {
 	case tea.KeyPressMsg:
+		m.quitting = true
 		return m, tea.Quit
 	}
 	var cmd tea.Cmd

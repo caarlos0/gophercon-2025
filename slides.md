@@ -386,7 +386,8 @@ if we need cursor handling, we would need to use tea.CursorModel instead
 import "github.com/charmbracelet/bubbles/v2/stopwatch"
 
 type model struct {
-  sw stopwatch.Model
+	sw       stopwatch.Model
+	quitting bool
 }
 
 func (m model) Init() tea.Cmd {
@@ -409,6 +410,7 @@ we also implement Init, which comes from the tea.Model interface - for our case 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
   switch msg.(type) {
   case tea.KeyPressMsg:
+    m.quitting = true
     return m, tea.Quit
   }
   var cmd tea.Cmd
@@ -430,11 +432,16 @@ Basically, we switch against its type, if its a keypress, we instruct the progra
 
 ```go
 func (m model) View() string {
-  return lipgloss.NewStyle().
-    Foreground(lipgloss.Yellow).
-    Bold(true).
-    Italic(true).
-    Render(m.sw.View())
+	if m.quitting {
+		return lipgloss.NewStyle().
+			Foreground(lipgloss.BrightBlack).
+			Render("Bye!")
+	}
+	return lipgloss.NewStyle().
+		Foreground(lipgloss.Yellow).
+		Bold(true).
+		Italic(true).
+		Render(m.sw.View())
 }
 ```
 
@@ -449,7 +456,10 @@ here, we create a style, and render stopwatch's view - which is basically a stri
 
 Run it:
 
-[.code-highlight: 2, 8-12]
+[.code-highlight: none]
+[.code-highlight: 2]
+[.code-highlight: 8-12]
+[.code-highlight: all]
 
 ```go
 func main() {
@@ -518,6 +528,11 @@ for all that, we'll need these imports
 
 Creating a server:
 
+[.code-highlight: none]
+[.code-highlight: 1-9]
+[.code-highlight: 9-12]
+[.code-highlight: all]
+
 ```go
 srv, err := wish.NewServer(
   wish.WithAddress("localhost:23234"),
@@ -546,6 +561,11 @@ and we check errors, of course
 
 Starting the server:
 
+[.code-highlight: none]
+[.code-highlight: 1]
+[.code-highlight: 2-5]
+[.code-highlight: all]
+
 ```go
 log.Info("Starting", "addr", ":23234")
 if err = srv.ListenAndServe(); err != nil &&
@@ -572,15 +592,16 @@ server closed happens when the server is stopped, and its not bad in this partic
 
 ![autoplay mute loop](bg.mp4)
 
+[.code-highlight: none]
+[.code-highlight: 1-3]
+[.code-highlight: 7-10]
+[.code-highlight: 1-3, 7-10]
+
 ```go
 carlos, _, _, , _ := ssh.ParseAuthorizedKey([]byte(
   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL...",
 ))
-```
 
-[.code-highlight: 3-6]
-
-```go
 srv, err := wish.NewServer(
   // ...
   wish.WithPublicKeyAuth(func(_ ssh.Context, key ssh.PublicKey) bool {
@@ -622,6 +643,13 @@ this enables the viper cobra btw
 
 ![autoplay mute loop](bg.mp4)
 
+[.code-highlight: none]
+[.code-highlight: 3]
+[.code-highlight: 5]
+[.code-highlight: 6]
+[.code-highlight: 7-11]
+[.code-highlight: 12]
+[.code-highlight: 17-18]
 [.code-highlight: 3-19]
 
 ```go
@@ -650,6 +678,7 @@ srv, err := wish.NewServer(
 
 ^ finally, we can use keyboard interactive challenges as well
 in this example, its 3 static questions, but you can do whatever you want, there. the bool array is whether to echo the response or not
+ln6 name & instruction
 
 ---
 
@@ -675,10 +704,10 @@ in this example, its 3 static questions, but you can do whatever you want, there
 
 ^ there's always more, isn't it?
 
-- Learn more about ANSI sequences (see: charm.sh/sequin)
-- Use more components from charm.sh/bubbles and charm.sh/huh
-- Dig through charm.sh/wish and charm.sh/bubbletea examples folders
-- Deploy to a VPS (or something like fly.io)
+- Learn more about ANSI sequences (see: [charm.sh/sequin](https://charm.sh/sequin))
+- Use more components from charm.sh/bubbles and [charm.sh/huh](https://charm.sh/huh)
+- Dig through charm.sh/wish and [charm.sh/bubbletea](https://charm.sh/bubbletea) examples folders
+- Deploy it somewhere (easy enough on [fly.io](https://fly.io))
 - Tell the world about what you built 🔥
 
 ---
@@ -691,14 +720,16 @@ in this example, its 3 static questions, but you can do whatever you want, there
 
 ---
 
-[build-lists: false]
+## Links
+
+[.build-lists: false]
 
 ![autoplay mute loop](bg.mp4)
 
-- https://charm.sh
-- https://caarlos0.dev
-- https://goreleaser.com
-- https://github.com/caarlos0/gophercon-2025
+- [charm.sh](https://charm.sh)
+- [caarlos0.dev](https://caarlos0.dev)
+- [goreleaser.com](https://goreleaser.com)
+- [caarlos0/gophercon-2025](https://github.com/caarlos0/gophercon-2025)
 
 <!-- # TODO: add more images -->
 <!---->
