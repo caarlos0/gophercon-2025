@@ -119,23 +119,11 @@ It depends...
 
 ![autoplay mute loop](bg.mp4)
 
-## Typewriters
-
-![inline](https://charm.sh/typewriter.84227b29dbcbcea4.jpg)
-
-^ 1840
-typewriters were never a terminal, but terminals come from it
-these artifacts of the past are still there today, like `\r\n`
-
----
-
-![autoplay mute loop](bg.mp4)
-
 ## Teletype Writers (TTY)
 
 ![inline](https://charm.sh/Teletype_model_33_asr.80233f95c693bbe9.jpg)
 
-^ Model 33 1928ish
+^ Model 33 1930
 Teletype Corporation trademarked “teletype” for its teleprinters back in 1928.
 The basic idea behind is you have two machines linked together.
 Letters typed in one machine are sent and print into the other machine as well.
@@ -150,7 +138,7 @@ TTY still used today to refer to terminals, emulated or otherwise
 ![inline](https://charm.sh/DEC_VT100_terminal.309584cced5167e.jpg)
 
 ^ still connected to another computer, but having a video display for output instead of a printer
-VTs introduced special chars to control the terminal, like \esc, \n, \r, \a bell and \t tab, as well as support for ansi escape sequences - more about it later
+VTs introduced special chars to control the terminal, like esc, \n, \r, \a bell and \t tab, as well as support for ansi escape sequences - more about it later
 VT100 1978
 
 ---
@@ -885,10 +873,19 @@ ln6 name & instruction
 
 ![autoplay mute loop](bg.mp4)
 
-# Its alive!
+## Live examples
 
 ```console
-$ ssh gophercon-talk.fly.dev
+$ ssh gophercon-talk.fly.dev    # what we did today
+$ ssh git.charm.sh              # soft serve git server
+$ ssh modchip.charm.sh          # ai over ssh
+$ ssh terminal.pet              # keep it alive
+$ ssh terminal.coffee           # buy coffee
+$ ssh -p2222 ssh.caarlos0.dev   # confetti
+$ ssh -p2223 ssh.caarlos0.dev   # fireworks
+$ TZ=America/Sao_Paulo ssh \    # current time in german
+  -p23234 -oSendEnv=TZ \
+  ssh.caarlos0.dev
 ```
 
 ---

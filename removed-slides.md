@@ -32,3 +32,15 @@ timeline
 <!-- TODO: double check dates, see if this all makes sense -->
 
 ---
+
+![autoplay mute loop](bg.mp4)
+
+## Typewriters
+
+![inline](https://charm.sh/typewriter.84227b29dbcbcea4.jpg)
+
+^ 1840
+typewriters were never a terminal, but terminals come from it
+these artifacts of the past are still there today, like `\r\n`
+
+---
