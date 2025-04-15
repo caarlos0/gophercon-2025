@@ -274,7 +274,7 @@ Most of the time, you'll only need lipgloss though
 
 ![autoplay mute loop](bg.mp4)
 
-![inline](./freeze.png)
+![inline](./lipgloss.png)
 
 ^ the ansi sequences are hidden :)
 
@@ -483,7 +483,7 @@ notice we have a newModel func - this will come in handy in a few :)
 
 ![autoplay mute loop](bg.mp4)
 
-![inline](./g02.gif)
+![inline](./bubbletea.gif)
 
 ^ and with that, we have our first interactive app
 it aint much, but its honest work
@@ -584,7 +584,7 @@ server closed happens when the server is stopped, and its not bad in this partic
 
 ![autoplay mute loop](bg.mp4)
 
-![inline](./g03.gif)
+![inline](./wish.gif)
 
 ---
 
@@ -684,7 +684,7 @@ ln6 name & instruction
 
 ![autoplay mute loop](bg.mp4)
 
-![inline](./g04.gif)
+![inline](./wish-auth.gif)
 
 ^ and this is we trying out all the 3 auth methods
 

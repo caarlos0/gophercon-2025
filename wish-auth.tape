@@ -4,7 +4,7 @@ Set Height 600
 Set BorderRadius 40
 Set WindowBar Colorful
 Set WindowBarSize 50
-Output g04.gif
+Output wish-auth.gif
 
 Hide
 Type "tmux kill-session -t demo" Enter
@@ -17,7 +17,7 @@ Type k
 Type "clear" Enter
 Show
 
-Type "go run 04/main.go"
+Type "go run ./wish-auth/main.go"
 Enter
 Sleep 1s
 
