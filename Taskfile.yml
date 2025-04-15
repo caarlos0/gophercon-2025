@@ -5,8 +5,52 @@ version: "3"
 tasks:
   assets:
     cmds:
-      - 'freeze -o lipgloss.png --execute "go run ./lipgloss/main.go"'
+      - task: lipgloss
+      - task: bubbletea
+      - task: bubbletea-bubbles
+      - task: wish
+      - task: wish-auth
+
+  lipgloss:
+    cmds:
+      - 'freeze --config full -o lipgloss.png --execute "go run ./lipgloss/main.go"'
+    sources:
+      - ./lipgloss/*
+    generates:
+      - ./lipgloss.png
+
+  bubbletea:
+    cmds:
       - "vhs bubbletea.tape"
+    sources:
+      - ./bubbletea/*
+      - ./bubbletea.tape
+    generates:
+      - ./bubbletea.gif
+
+  bubbletea-bubbles:
+    cmds:
       - "vhs bubbletea-bubbles.tape"
+    sources:
+      - ./bubbletea-bubbles/*
+      - ./bubbletea-bubbles.tape
+    generates:
+      - ./bubbletea-bubbles.gif
+
+  wish:
+    cmds:
       - "vhs wish.tape"
+    sources:
+      - ./wish/*
+      - ./wish.tape
+    generates:
+      - ./wish.gif
+
+  wish-auth:
+    cmds:
       - "vhs wish-auth.tape"
+    sources:
+      - ./wish-auth/*
+      - ./wish-auth.tape
+    generates:
+      - ./wish-auth.gif

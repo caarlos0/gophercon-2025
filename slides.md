@@ -188,41 +188,6 @@ all that said, no one calls them ecma-48 sequenences
 
 ---
 
-## Brief timeline
-
-<!-- TODO: This is probably incorrect: -->
-
-![autoplay mute loop](bg.mp4)
-
-```mermaid
-timeline
-        1868 : Typewriter
-        1874 : QUERTY
-        1915 : First Teletypes
-        1930s : Teleprinters
-        1963 : ASCII
-        1969 : ed
-        1971 : DEC VT05
-        1972 : ANSI
-        1976 : vi
-             : DEC VT52
-        1978 : DEC VT100
-        1979 : ECMA-48
-        1981 : ANSI X3.64
-        1983 : GNU
-        1984 : X11
-        1985 : Emacs
-        1987 : xterm
-        1991 : Linux kernel
-             : Vim
-        2010 : tmux
-        2014 : Neovim
-```
-
-<!-- TODO: double check dates, see if this all makes sense -->
-
----
-
 ## ANSI sequences
 
 ![autoplay mute loop](bg.mp4)
@@ -246,9 +211,21 @@ DCS device control string request terminal capabilities, in this case, cols
 
 ---
 
-## Time to Go
+![autoplay mute loop](bg.mp4)
+
+## Quick tip
+
+- You can debug ANSI sequences with [charm.sh/sequin](https://charm.sh/sequin)
+- Built on top of
+  `charmbracelet/x/ansi`
+
+![right 90%](https://github.com/user-attachments/assets/60cce45d-be8a-4d77-a063-a3cf3d952966)
+
+---
 
 ![autoplay mute loop](bg.mp4)
+
+## Time to Go
 
 We can do the same with Lip Gloss and x/ansi
 
@@ -307,6 +284,21 @@ traffic is end to end encrypted using AES usually - users can be authorized seve
 since ssh is a regular process, you can pipe into/from it as well (like we saw before)
 you can also forward ports from your local machine to the remote, and vice versa
 finally, if you still use RSA, this is a public safety announcement: replace it with a more modern key, like a ed25519
+
+---
+
+## SSH
+
+![autoplay mute loop](bg.mp4)
+
+```mermaid
+sequenceDiagram
+    Client->>Server: Initial connection
+    Server->Client: Protocol versions and encryption algorithms exchange
+    Server->Client: Authentication
+    Server->Client: Interactive SSH session
+    Server->Client: Session closed
+```
 
 ---
 
@@ -430,18 +422,27 @@ Basically, we switch against its type, if its a keypress, we instruct the progra
 
 `View`:
 
+[.code-highlight: none]
+[.code-highlight: 2-3]
+[.code-highlight: 4-7]
+[.code-highlight: 11-14]
+[.code-highlight: all]
+
 ```go
-func (m model) View() string {
-	if m.quitting {
-		return lipgloss.NewStyle().
-			Foreground(lipgloss.BrightBlack).
-			Render("Bye!")
-	}
-	return lipgloss.NewStyle().
+var (
+	byeStyle = lipgloss.NewStyle().
+			Foreground(lipgloss.BrightBlack)
+	swStyle = lipgloss.NewStyle().
 		Foreground(lipgloss.Yellow).
 		Bold(true).
-		Italic(true).
-		Render(m.sw.View())
+		Italic(true)
+)
+
+func (m model) View() string {
+	if m.quitting {
+		return byeStyle.Render("Bye!")
+	}
+	return swStyle.Render(m.sw.View())
 }
 ```
 
@@ -490,9 +491,157 @@ it aint much, but its honest work
 
 ---
 
-# Serving it over SSH
+![autoplay mute loop](bg.mp4)
+
+## Bubble Tea
+
+Let's add a spinner as well:
+
+[.code-highlight: none]
+[.code-highlight: 1]
+[.code-highlight: 5]
+[.code-highlight: all]
+
+```go
+import "github.com/charmbracelet/bubbles/v2/spinner"
+
+type model struct {
+	sw       stopwatch.Model
+	sp       spinner.Model
+	quitting bool
+}
+```
+
+^ let's add a spinner as well, just so we have more things going on.
+we can import the bubbles spinner pkg, and add its model into our own.
+
+---
 
 ![autoplay mute loop](bg.mp4)
+
+## Bubble Tea
+
+[.code-highlight: none]
+[.code-highlight: 2]
+[.code-highlight: 4]
+[.code-highlight: all]
+
+```go
+func (m model) Init() tea.Cmd {
+	return tea.Batch(
+		m.sw.Start(),
+		m.sp.Tick,
+	)
+}
+```
+
+^ then, on init, we need to make sure that both the stopwatch and the spinner
+are triggered.
+
+---
+
+![autoplay mute loop](bg.mp4)
+
+## Bubble Tea
+
+[.code-highlight: none]
+[.code-highlight: 1-4]
+[.code-highlight: 11-15]
+[.code-highlight: all]
+
+```go
+var spinStyle = lipgloss.NewStyle().
+	Foreground(lipgloss.BrightMagenta).
+	PaddingLeft(1).
+	PaddingRight(1)
+
+func (m model) View() string {
+	if m.quitting {
+		return byeStyle.Render("Bye!")
+	}
+
+	return lipgloss.JoinHorizontal(
+		lipgloss.Left,
+		spinStyle.Render(m.sp.View()),
+		swStyle.Render(m.sw.View()),
+	)
+}
+```
+
+^ finally, we add another style for our spinner, and on View, render both the
+stopwatch and the spinner.
+
+---
+
+![autoplay mute loop](bg.mp4)
+
+## Bubble Tea
+
+[.code-highlight: none]
+[.code-highlight: 8]
+[.code-highlight: 10]
+[.code-highlight: 11-12]
+[.code-highlight: 13]
+[.code-highlight: all]
+
+```go
+func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	switch msg.(type) {
+	case tea.KeyPressMsg:
+		m.quitting = true
+		return m, tea.Quit
+	}
+	var cmd tea.Cmd
+	var cmds []tea.Cmd
+	m.sw, cmd = m.sw.Update(msg)
+	cmds = append(cmds, cmd)
+	m.sp, cmd = m.sp.Update(msg)
+	cmds = append(cmds, cmd)
+	return m, tea.Batch(cmds...)
+}
+```
+
+^ then, on update, we now need to have a slice of tea.Cmds, and append them, to
+them batch return them.
+
+---
+
+![autoplay mute loop](bg.mp4)
+
+# Bubble Tea
+
+[.code-highlight: none]
+[.code-highlight: 3-5]
+[.code-highlight: all]
+
+```go
+func newModel() model {
+  return model{
+    sp: spinner.New(
+      spinner.WithSpinner(spinner.Jump),
+    ),
+    sw: stopwatch.New(
+      stopwatch.WithInterval(time.Second),
+    ),
+  }
+}
+```
+
+^ finally, we need to make sure to create our spinner in the model as well.
+
+---
+
+![autoplay mute loop](bg.mp4)
+
+![inline](./bubbletea-bubbles.gif)
+
+^ and with that, we can run our app again
+
+---
+
+![autoplay mute loop](bg.mp4)
+
+# Serving it over SSH
 
 ^ now, let's finally serve these over ssh
 
