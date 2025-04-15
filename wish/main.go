@@ -12,35 +12,12 @@ import (
 	"github.com/charmbracelet/wish/v2"
 	btm "github.com/charmbracelet/wish/v2/bubbletea"
 	"github.com/charmbracelet/wish/v2/logging"
-	gossh "golang.org/x/crypto/ssh"
 )
 
 func main() {
 	srv, err := wish.NewServer(
 		wish.WithAddress("localhost:23234"),
-		wish.WithPublicKeyAuth(func(ctx ssh.Context, key ssh.PublicKey) bool {
-			// TODO: check if key is authorized
-			return true
-		}),
-		wish.WithPasswordAuth(func(ctx ssh.Context, password string) bool {
-			// TODO: check if password is valid
-			return true
-		}),
-		wish.WithKeyboardInteractiveAuth(func(ctx ssh.Context, challenger gossh.KeyboardInteractiveChallenge) bool {
-			answers, err := challenger(
-				"", "",
-				[]string{
-					"♦ How much is 2+3: ",
-					"♦ Which editor is best, vim or emacs? ",
-				},
-				[]bool{true, true},
-			)
-			if err != nil {
-				return false
-			}
-			// here we check for the correct answers:
-			return len(answers) == 2 && answers[0] == "5" && answers[1] == "vim"
-		}),
+		wish.WithHostKeyPath("./.ssh/id_ed25519"),
 		wish.WithMiddleware(
 			btm.Middleware(func(ssh.Session) (tea.Model, []tea.ProgramOption) {
 				return newModel(), nil

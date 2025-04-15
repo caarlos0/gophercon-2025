@@ -22,7 +22,7 @@ func main() {
 
 	srv, err := wish.NewServer(
 		wish.WithAddress("0.0.0.0:23234"),
-
+		wish.WithHostKeyPath("./.ssh/id_ed25519"),
 		wish.WithPublicKeyAuth(func(_ ssh.Context, key ssh.PublicKey) bool {
 			log.Info("public key")
 			return ssh.KeysEqual(key, carlos)

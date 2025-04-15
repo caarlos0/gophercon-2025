@@ -4,15 +4,15 @@ footer: Carlos Becker - Gophercon Latam 2025
 slide-transition: fade(0.5)
 theme: Charm
 
-# Serving TUIs over SSH using Go ✨
-
 ![autoplay mute loop](bg.mp4)
+
+# Serving TUIs over SSH using Go ✨
 
 ---
 
-# Why even bother?
-
 ![autoplay mute loop](bg.mp4)
+
+# Why even bother?
 
 Isn't the world basically web apps now?
 
@@ -29,9 +29,9 @@ there's no insecure secure shell
 
 ---
 
-# $ whoami
-
 ![autoplay mute loop](bg.mp4)
+
+# $ whoami
 
 Carlos Alexandro Becker
 
@@ -44,9 +44,9 @@ Carlos Alexandro Becker
 
 ---
 
-# Agenda
-
 ![autoplay mute loop](bg.mp4)
+
+# Agenda
 
 - TUI vs CLI
 - Intro to terminals
@@ -68,9 +68,9 @@ questions
 
 ---
 
-## Command Line Interfaces
-
 ![autoplay mute loop](bg.mp4)
+
+## Command Line Interfaces
 
 - User gives input through commands, gets results printed below them
 - Might also take inputs through args, flags, environment variables
@@ -81,9 +81,9 @@ questions
 
 ---
 
-## Text-based User Interfaces
-
 ![autoplay mute loop](bg.mp4)
+
+## Text-based User Interfaces
 
 - Present themselves as an interactive application, using ASCII and Unicode characters to drawn the user interface
 - Usually mimics text inputs, buttons, etc
@@ -111,15 +111,15 @@ It depends...
 
 ---
 
-# Terminals 101
-
 ![autoplay mute loop](bg.mp4)
+
+# Terminals 101
 
 ---
 
-## Typewriters
-
 ![autoplay mute loop](bg.mp4)
+
+## Typewriters
 
 ![inline](https://charm.sh/typewriter.84227b29dbcbcea4.jpg)
 
@@ -129,9 +129,9 @@ these artifacts of the past are still there today, like `\r\n`
 
 ---
 
-## Teletype Writers (TTY)
-
 ![autoplay mute loop](bg.mp4)
+
+## Teletype Writers (TTY)
 
 ![inline](https://charm.sh/Teletype_model_33_asr.80233f95c693bbe9.jpg)
 
@@ -143,9 +143,9 @@ TTY still used today to refer to terminals, emulated or otherwise
 
 ---
 
-## Video Terminals
-
 ![autoplay mute loop](bg.mp4)
+
+## Video Terminals
 
 ![inline](https://charm.sh/DEC_VT100_terminal.309584cced5167e.jpg)
 
@@ -172,9 +172,9 @@ whatever it is you call a terminal today, is actually a terminal emulator - its 
 
 ---
 
-## ANSI & ECMA-48
-
 ![autoplay mute loop](bg.mp4)
+
+## ANSI & ECMA-48
 
 - ANSI was the first standard
 - Colors, Cursor movement, etc
@@ -188,9 +188,9 @@ all that said, no one calls them ecma-48 sequenences
 
 ---
 
-## ANSI sequences
-
 ![autoplay mute loop](bg.mp4)
+
+## ANSI sequences
 
 - Start with an ESC (`\e`, `^[`, `\033`, or `\x1b`)
 - Several types of sequences: ESC, CSI, OSC, DCS, APC
@@ -257,9 +257,9 @@ Most of the time, you'll only need lipgloss though
 
 ---
 
-# The Secure SHell
-
 ![autoplay mute loop](bg.mp4)
+
+# The Secure SHell
 
 ^ Now that we learned a bit about terminals, and ansi sequences, lets move into ssh
 
@@ -267,17 +267,47 @@ Most of the time, you'll only need lipgloss though
 
 ---
 
+![autoplay mute loop](bg.mp4)
+
+## SSH
+
+How it works[^1]:
+
+[^1]: _Very_ summarized.
+
+```mermaid
+sequenceDiagram
+    Client->>Server: Initial connection
+    Server->Client: Protocol versions and encryption algorithms exchange
+    Server->Client: Exchange encryption keys
+    Server->Client: User authentication
+    Server->Client: Session begins
+    Server->Client: Session ends
+```
+
+^ this is a very summarized version on how the handshake works
+so, basically, the client inits the connection, then both client and server
+exchange supported protocol version and encryption algorithms, decide which to
+use, exchange encryption keys using diffie-hellman (for example)
+From that point forward the connection is encrypted.
+Then, finally user authentication happens, and if the server accepts, the ssh
+session begins at that point, until either party closes it.
+
+---
+
 ## SSH
 
 ![autoplay mute loop](bg.mp4)
 
-- widely available
-- end-to-end public/private key encryption
-- user identification through public keys
-- SFTP and SCP to transfer files if needed
-- can pipe from/into a host from your computer
-- can forward ports (which allow for some clever hacks)
-- this is your reminder to replace your RSA key with a Ed25519 key 🙏
+### Biggest Ws:
+
+- Widely available
+- End-to-end encryption by default
+- User identification through public keys
+- Can pipe from/into a host from your computer
+- Can forward ports (which allow for some clever hacks)
+
+**Friendly reminder: replace your RSA keys 🙏**
 
 ^ as the name implies - its a secure shell, its meant to allow remote access. The most common usage (that most of us know) is to ssh into a shell, or use it as a git remote
 traffic is end to end encrypted using AES usually - users can be authorized several ways, including public key auth, in which case they can also be uniquely identified by their key
@@ -291,36 +321,22 @@ finally, if you still use RSA, this is a public safety announcement: replace it 
 
 ![autoplay mute loop](bg.mp4)
 
-```mermaid
-sequenceDiagram
-    Client->>Server: Initial connection
-    Server->Client: Protocol versions and encryption algorithms exchange
-    Server->Client: Authentication
-    Server->Client: Interactive SSH session
-    Server->Client: Session closed
-```
+### Biggest Ls:
 
----
-
-## SSH
-
-![autoplay mute loop](bg.mp4)
-
-Biggest problems:
-
-- Non-technical people don't use or know what SSH is
-- SSH doesn't send the hostname as part of the initial handshake, so no host-based routing is possible, which makes hosting harder
-- i18n: SSH doesn't send TZ and LC\* by default
+- Most non-technical people don't use or know what SSH is
+- SSH doesn't send the `hostname` as part of the initial handshake
+- _i18n_ and _l10n_: SSH doesn't send `TZ` and `LC*` by default
 
 ^ non technical people and vibe coders in general might not know what ssh even is
-^ its a bit harder to serve, as the hostname is not sent as part of the initial ssh handshake. workarounds include routing based on port and user
-^ i18n might be a bit more difficult, as SSH doesn't send the required variables
+its a bit harder to serve, as the hostname is not sent as part of the initial ssh handshake. workarounds include routing based on port and user, so no host-based routing is possible, which makes hosting harder
+i18n might be a bit more difficult, as SSH doesn't send the required variables
+yeah, that should be enough for what we plan to do today!
 
 ---
 
-# Making a TUI
-
 ![autoplay mute loop](bg.mp4)
+
+# Making a TUI
 
 <!-- TODO: add an image here? -->
 
@@ -328,31 +344,35 @@ Biggest problems:
 
 ---
 
-## Bubble Tea
-
 ![autoplay mute loop](bg.mp4)
 
-A powerful little TUI framework
+## Bubble Tea
 
-- Elm-style: Init, Update, View
-- Automatically downgrade colors based on user terminal
+**A powerful little TUI framework**.
+
+- Elm-style: `Init`, `Update`, `View`
+- Automatically downgrade colors based on user's terminal
 - Many features built in: alt screens, resizing, background color detection, cursor, focus/blur, suspend/resume, kitty keyboard, etc
 - Can be extended with Bubbles (components) and Huh (forms)
 
 ^ for that, we'll use charm's bubbletea
-^ it follows the elm-architecture, and, on v2, automatically downgrades colors based on the user terminal profile
-^ it has a lot of features built in, like native cursor, kitty keyboard, etc. composition is also coming eventually!
-^ last but not least, you can use it with conjunction of things like Bubbles and Huh to make better interactive apps
+it follows the elm-architecture, and, on v2, automatically downgrades colors based on the user terminal profile
+it has a lot of features built in, like native cursor, kitty keyboard, etc. composition is also coming eventually!
+last but not least, you can use it with conjunction of things like Bubbles and Huh to make better interactive apps
 
 <!-- TODO: bubbletea flow? -->
 
 ---
 
+![autoplay mute loop](bg.mp4)
+
 ## Bubble Tea
 
-The model:
-
-![autoplay mute loop](bg.mp4)
+[.code-highlight: none]
+[.code-highlight: 1]
+[.code-highlight: 3]
+[.code-highlight: 5]
+[.code-highlight: all]
 
 ```go
 import tea "github.com/charmbracelet/bubbletea/v2"
@@ -362,17 +382,17 @@ var _ tea.ViewModel = model{}
 type model struct {}
 ```
 
-^ we're gonna implement a simple app with it: it'll show a countdown, and stop it on any keypress. Its simple, but enough for what I want to demonstrate right now
+^ we're gonna implement a simple app with it: it'll show a countdown, and stop it on any keypress.
+Its simple, but enough for what I want to demonstrate right now
 to do that, we need to create a struct - lets call it model, and make sure it implements tea.ViewModel
 if we need cursor handling, we would need to use tea.CursorModel instead
+we force model to conform to tea.ViewModel{}
 
 ---
 
-## Bubble Tea
-
 ![autoplay mute loop](bg.mp4)
 
-`Init`:
+## Bubble Tea
 
 ```go
 import "github.com/charmbracelet/bubbles/v2/stopwatch"
@@ -387,16 +407,22 @@ func (m model) Init() tea.Cmd {
 }
 ```
 
-^ then, we import stopwatch from bubbles, and embed it in our model
+^ then, we import stopwatch from bubbles, and add it to our model
 we also implement Init, which comes from the tea.Model interface - for our case it simply delegates to stopwatch's init
+the quitting bool there will be important later :)
 
 ---
 
-## Bubble Tea
-
 ![autoplay mute loop](bg.mp4)
 
-`Update`:
+## Bubble Tea
+
+[.code-highlight: none]
+[.code-highlight: 1,10]
+[.code-highlight: 2,6]
+[.code-highlight: 3-5]
+[.code-highlight: 7-9]
+[.code-highlight: all]
 
 ```go
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
@@ -411,21 +437,22 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 ```
 
-^ finally, we implement Update. Here's where we handle the messages we get from the bubbletea loop.
-Basically, we switch against its type, if its a keypress, we instruct the program to quit, otherwise, we delegate it to stopwatch. A note here is that ideally, IO should happen only inside tea.Cmds
+^ then, we implement Update. Here's where we handle the messages we get from the bubbletea loop.
+Basically, we switch against its type, if its a keypress, we instruct the
+program to quit, otherwise, we delegate it to stopwatch. A note here is that
+ideally, IO should happen only inside tea.Cmds
 
 ---
 
-## Bubble Tea
-
 ![autoplay mute loop](bg.mp4)
 
-`View`:
+## Bubble Tea
 
 [.code-highlight: none]
 [.code-highlight: 2-3]
 [.code-highlight: 4-7]
-[.code-highlight: 11-14]
+[.code-highlight: 14]
+[.code-highlight: 11-13]
 [.code-highlight: all]
 
 ```go
@@ -447,18 +474,19 @@ func (m model) View() string {
 ```
 
 ^ finally, the last piece of the interface: View.
-here, we create a style, and render stopwatch's view - which is basically a string
+here, we create a couple of styles, and render stopwatch's view - which is basically a string
+we also check if quitting is true, and render a good bye message instead.
+note that the styles might need to be stored within the model if we need
+something more dynamic (like diff colors for light/dark bg)
 
 ---
 
-## Bubble Tea
-
 ![autoplay mute loop](bg.mp4)
 
-Run it:
+## Bubble Tea
 
 [.code-highlight: none]
-[.code-highlight: 2]
+[.code-highlight: 2,5]
 [.code-highlight: 8-12]
 [.code-highlight: all]
 
@@ -477,7 +505,9 @@ func newModel() model {
 }
 ```
 
-^ then, we create a main function that creates a new program using our model, and runs it, checking for errors
+^ now the last step: running it
+to do that, we create a main function that creates a new program using our
+model, and runs it, checking for errors
 notice we have a newModel func - this will come in handy in a few :)
 
 ---
@@ -512,7 +542,7 @@ type model struct {
 }
 ```
 
-^ let's add a spinner as well, just so we have more things going on.
+^ just to demonstrate how to use multiple models, lets add a spinner as well.
 we can import the bubbles spinner pkg, and add its model into our own.
 
 ---
@@ -522,7 +552,7 @@ we can import the bubbles spinner pkg, and add its model into our own.
 ## Bubble Tea
 
 [.code-highlight: none]
-[.code-highlight: 2]
+[.code-highlight: 2,5]
 [.code-highlight: 4]
 [.code-highlight: all]
 
@@ -537,39 +567,6 @@ func (m model) Init() tea.Cmd {
 
 ^ then, on init, we need to make sure that both the stopwatch and the spinner
 are triggered.
-
----
-
-![autoplay mute loop](bg.mp4)
-
-## Bubble Tea
-
-[.code-highlight: none]
-[.code-highlight: 1-4]
-[.code-highlight: 11-15]
-[.code-highlight: all]
-
-```go
-var spinStyle = lipgloss.NewStyle().
-	Foreground(lipgloss.BrightMagenta).
-	PaddingLeft(1).
-	PaddingRight(1)
-
-func (m model) View() string {
-	if m.quitting {
-		return byeStyle.Render("Bye!")
-	}
-
-	return lipgloss.JoinHorizontal(
-		lipgloss.Left,
-		spinStyle.Render(m.sp.View()),
-		swStyle.Render(m.sw.View()),
-	)
-}
-```
-
-^ finally, we add another style for our spinner, and on View, render both the
-stopwatch and the spinner.
 
 ---
 
@@ -603,6 +600,45 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 ^ then, on update, we now need to have a slice of tea.Cmds, and append them, to
 them batch return them.
+its not much different from before aside of this
+
+---
+
+![autoplay mute loop](bg.mp4)
+
+## Bubble Tea
+
+[.code-highlight: none]
+[.code-highlight: 1-4]
+[.code-highlight: 11,15]
+[.code-highlight: 12]
+[.code-highlight: 13]
+[.code-highlight: 14]
+[.code-highlight: all]
+
+```go
+var spinStyle = lipgloss.NewStyle().
+	Foreground(lipgloss.BrightMagenta).
+	PaddingLeft(1).
+	PaddingRight(1)
+
+func (m model) View() string {
+	if m.quitting {
+		return byeStyle.Render("Bye!")
+	}
+
+	return lipgloss.JoinHorizontal(
+		lipgloss.Left,
+		spinStyle.Render(m.sp.View()),
+		swStyle.Render(m.sw.View()),
+	)
+}
+```
+
+^ finally, we add another style for our spinner, and on View, render both the
+stopwatch and the spinner.
+here, we add a new style for the spinner, then use lipgloss join horizontal to
+join both the spinner and the stopwatch
 
 ---
 
@@ -611,18 +647,14 @@ them batch return them.
 # Bubble Tea
 
 [.code-highlight: none]
-[.code-highlight: 3-5]
+[.code-highlight: 3]
 [.code-highlight: all]
 
 ```go
 func newModel() model {
   return model{
-    sp: spinner.New(
-      spinner.WithSpinner(spinner.Jump),
-    ),
-    sw: stopwatch.New(
-      stopwatch.WithInterval(time.Second),
-    ),
+    sp: spinner.New(spinner.WithSpinner(spinner.Jump)),
+    sw: stopwatch.New(stopwatch.WithInterval(time.Second)),
   }
 }
 ```
@@ -647,9 +679,9 @@ func newModel() model {
 
 ---
 
-## Wish
-
 ![autoplay mute loop](bg.mp4)
+
+## Wish
 
 You can't just wish that... or can you?
 
@@ -667,19 +699,23 @@ import (
 wish is a library on top of x/crypto/ssh and gliderlabs/ssh.
 it tries to "mimic" some concepts of the standard http library for ssh apps
 so we have the concept of middlewares as well, and also some functional options
-for all that, we'll need these imports
+but first, we'll need these imports
 
 ---
 
-## Wish
-
 ![autoplay mute loop](bg.mp4)
+
+## Wish
 
 Creating a server:
 
 [.code-highlight: none]
-[.code-highlight: 1-9]
-[.code-highlight: 9-12]
+[.code-highlight: 1,9]
+[.code-highlight: 2]
+[.code-highlight: 3,8]
+[.code-highlight: 4-6]
+[.code-highlight: 7]
+[.code-highlight: 10-12]
 [.code-highlight: all]
 
 ```go
@@ -704,9 +740,9 @@ and we check errors, of course
 
 ---
 
-## Wish
-
 ![autoplay mute loop](bg.mp4)
+
+## Wish
 
 Starting the server:
 
@@ -737,9 +773,9 @@ server closed happens when the server is stopped, and its not bad in this partic
 
 ---
 
-## Wish: auth methods
-
 ![autoplay mute loop](bg.mp4)
+
+## Wish: auth methods
 
 [.code-highlight: none]
 [.code-highlight: 1-3]
@@ -762,13 +798,15 @@ srv, err := wish.NewServer(
 ```
 
 ^ now, we probably want public key auth
-in this example I have my pub key hard coded, but in the so called real world you can get it from a db, or some other type of storage
+in this example I have my pub key hard coded, but in the so called real world
+you can get it from a db, or some other type of storage
+we add the WithPublicKeyAuth functional option to our server and that's about it
 
 ---
 
-## Wish: auth methods
-
 ![autoplay mute loop](bg.mp4)
+
+## Wish: auth methods
 
 [.code-highlight: 3-6]
 
@@ -777,7 +815,7 @@ srv, err := wish.NewServer(
   // ...
   wish.WithPasswordAuth(func(_ ssh.Context, password string) bool {
     log.Info("password")
-    return password == "how you turn this on"
+    return password == "how you turn this on" // 🐍
   }),
   // ...
 )
@@ -785,16 +823,18 @@ srv, err := wish.NewServer(
 
 ^ we can also use passwords, if public key is not what you need
 this enables the viper cobra btw
+same thing here, you'd need to do all the things you generally do with web apps,
+hashing, salting, etc, etc. keep in mind this is a simplified example only.
 
 ---
 
-## Wish: auth methods
-
 ![autoplay mute loop](bg.mp4)
 
+## Wish: auth methods
+
 [.code-highlight: none]
-[.code-highlight: 3]
-[.code-highlight: 5]
+[.code-highlight: 3,19]
+[.code-highlight: 5,13]
 [.code-highlight: 6]
 [.code-highlight: 7-11]
 [.code-highlight: 12]
@@ -825,8 +865,9 @@ srv, err := wish.NewServer(
 )
 ```
 
-^ finally, we can use keyboard interactive challenges as well
-in this example, its 3 static questions, but you can do whatever you want, there. the bool array is whether to echo the response or not
+^ finally, we can use the less-known/common keyboard interactive challenges as well
+in this example, its 3 static questions, but you can do whatever you want, there.
+the bool array is whether to echo the response or not
 ln6 name & instruction
 
 ---
@@ -839,9 +880,17 @@ ln6 name & instruction
 
 ---
 
-# What's next?
+![autoplay mute loop](bg.mp4)
+
+```bash
+ssh
+```
+
+---
 
 ![autoplay mute loop](bg.mp4)
+
+# What's next?
 
 ^ ok.. what now?
 
@@ -869,11 +918,11 @@ ln6 name & instruction
 
 ---
 
+![autoplay mute loop](bg.mp4)
+
 ## Links
 
 [.build-lists: false]
-
-![autoplay mute loop](bg.mp4)
 
 - [charm.sh](https://charm.sh)
 - [caarlos0.dev](https://caarlos0.dev)
