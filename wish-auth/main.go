@@ -4,6 +4,7 @@ import (
 	"errors"
 	"time"
 
+	"github.com/charmbracelet/bubbles/v2/spinner"
 	"github.com/charmbracelet/bubbles/v2/stopwatch"
 	tea "github.com/charmbracelet/bubbletea/v2"
 	"github.com/charmbracelet/lipgloss/v2"
@@ -73,6 +74,7 @@ func main() {
 
 func newModel() model {
 	return model{
+		sp: spinner.New(spinner.WithSpinner(spinner.Jump)),
 		sw: stopwatch.New(
 			stopwatch.WithInterval(time.Second),
 		),
@@ -83,22 +85,41 @@ var _ tea.ViewModel = model{}
 
 type model struct {
 	sw       stopwatch.Model
+	sp       spinner.Model
 	quitting bool
 }
 
-func (m model) Init() tea.Cmd { return m.sw.Start() }
+func (m model) Init() tea.Cmd {
+	return tea.Batch(
+		m.sw.Start(),
+		m.sp.Tick,
+	)
+}
+
+var (
+	byeStyle = lipgloss.NewStyle().
+			Foreground(lipgloss.BrightBlack)
+	swStyle = lipgloss.NewStyle().
+		Foreground(lipgloss.Yellow).
+		Bold(true).
+		Italic(true)
+)
+
+var spinStyle = lipgloss.NewStyle().
+	Foreground(lipgloss.BrightMagenta).
+	PaddingLeft(1).
+	PaddingRight(1)
 
 func (m model) View() string {
 	if m.quitting {
-		return lipgloss.NewStyle().
-			Foreground(lipgloss.BrightBlack).
-			Render("Bye!")
+		return byeStyle.Render("Bye!")
 	}
-	return lipgloss.NewStyle().
-		Foreground(lipgloss.Yellow).
-		Bold(true).
-		Italic(true).
-		Render(m.sw.View())
+
+	return lipgloss.JoinHorizontal(
+		lipgloss.Left,
+		spinStyle.Render(m.sp.View()),
+		swStyle.Render(m.sw.View()),
+	)
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
@@ -108,6 +129,10 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return m, tea.Quit
 	}
 	var cmd tea.Cmd
+	var cmds []tea.Cmd
 	m.sw, cmd = m.sw.Update(msg)
-	return m, cmd
+	cmds = append(cmds, cmd)
+	m.sp, cmd = m.sp.Update(msg)
+	cmds = append(cmds, cmd)
+	return m, tea.Batch(cmds...)
 }
