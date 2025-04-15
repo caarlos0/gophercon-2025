@@ -710,17 +710,19 @@ but first, we'll need these imports
 Creating a server:
 
 [.code-highlight: none]
-[.code-highlight: 1,9]
+[.code-highlight: 1,10]
 [.code-highlight: 2]
-[.code-highlight: 3,8]
-[.code-highlight: 4-6]
-[.code-highlight: 7]
-[.code-highlight: 10-12]
+[.code-highlight: 3]
+[.code-highlight: 4,9]
+[.code-highlight: 5-7]
+[.code-highlight: 8]
+[.code-highlight: 11-13]
 [.code-highlight: all]
 
 ```go
 srv, err := wish.NewServer(
   wish.WithAddress("localhost:23234"),
+  wish.WithHostKeyPath("./.ssh/id_ed25519"),
   wish.WithMiddleware(
     btm.Middleware(func(ssh.Session) (tea.Model, []tea.ProgramOption) {
       return newModel(), nil
@@ -734,6 +736,7 @@ if err != nil {
 ```
 
 ^ first, we create a server - for our case, its enough to listen to localhost
+we also need to set the host key - which you can generate with ssh-keygen
 we also use with middleware, and use the wish bubbletea middleware. there we could return some options if we wanted (like altscreen), but we don't need it now. so we simply return calling oour newModel func from before
 we also add a structured logging middleware. this will log all incoming connections. there's also prometheus middlewares, rate limit, and more
 and we check errors, of course
@@ -882,8 +885,10 @@ ln6 name & instruction
 
 ![autoplay mute loop](bg.mp4)
 
-```bash
-ssh
+# Its alive!
+
+```console
+$ ssh gophercon-talk.fly.dev
 ```
 
 ---
@@ -903,8 +908,8 @@ ssh
 ^ there's always more, isn't it?
 
 - Learn more about ANSI sequences (see: [charm.sh/sequin](https://charm.sh/sequin))
-- Use more components from charm.sh/bubbles and [charm.sh/huh](https://charm.sh/huh)
-- Dig through charm.sh/wish and [charm.sh/bubbletea](https://charm.sh/bubbletea) examples folders
+- Use more components from [charm.sh/bubbles](https://charm.sh/bubbles) and [charm.sh/huh](https://charm.sh/huh)
+- Dig through [charm.sh/wish](https://charm.sh/wish) and [charm.sh/bubbletea](https://charm.sh/bubbletea) examples folders
 - Deploy it somewhere (easy enough on [fly.io](https://fly.io))
 - Tell the world about what you built 🔥
 
@@ -933,10 +938,6 @@ ssh
 <!-- - ssh handshake -->
 <!-- - bubbletea loop -->
 <!-- - some cool examples maybe? -->
-<!-- TODO: add links to everything -->
 <!-- TODO: pty vs tty? -->
 <!-- TODO: maybe add some dates? -->
-<!-- TODO: ssh gophercon-talk.fly.dev -->
-<!-- TODO: show more wish options -->
-<!-- TODO: talk about server keys -->
 <!-- TODO: TOFU? -->
