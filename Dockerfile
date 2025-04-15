@@ -2,7 +2,7 @@ FROM golang:alpine as builder
 WORKDIR /usr/src/app
 COPY go.mod go.sum ./
 RUN go mod download
-COPY ./04/* .
+COPY ./wish-auth/* .
 RUN go build -o /tmp/gophercon-talk .
 
 FROM alpine
@@ -11,4 +11,3 @@ WORKDIR /app
 EXPOSE 23234
 VOLUME [ "/app/.ssh" ]
 ENTRYPOINT [ "/usr/bin/gophercon-talk" ]
-
