@@ -2,3 +2,4 @@ id_ed25519*
 *.gif
 *.png
 og.mov
+.ssh
