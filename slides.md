@@ -356,6 +356,23 @@ last but not least, you can use it with conjunction of things like Bubbles and H
 
 ## Bubble Tea
 
+```mermaid
+flowchart LR
+    Init --> Msg
+    Msg --> Update
+    Update --> View
+    Update --> Cmd
+    Cmd --> Msg
+    Input --> Msg
+    View --> Output
+```
+
+---
+
+![autoplay mute loop](bg.mp4)
+
+## Bubble Tea
+
 [.code-highlight: none]
 [.code-highlight: 1]
 [.code-highlight: 3]
