@@ -21,13 +21,29 @@ Isn't the world basically web apps now?
 - Cultural and aesthetic appeal
 - Nostalgia / retro-futurism
 - Resource usage / performance
-- Security
+- Power users
 
-^ before starting with anything, i know i have to convince you to care, or at least be a little curious about all this. so here we go.
+^ before starting with anything, i know i have to convince you to care, or at
+least be a little curious about all this. so here we go.
 probably not everyone works on terminal tooling though
-there's no insecure secure shell
+there's also the novelty factor - being different from competition
+the cultural aspect also weights in, bringing nostalgia and retro-futurism
+on top of that, low resource usage, usually great performance, and power users
+love it
 
 ---
+
+![autoplay mute loop](bg.mp4)
+
+Also:
+
+# _You can just do things ✨_
+
+For the sake of doing them.
+
+---
+
+[.build-lists: false]
 
 ![autoplay mute loop](bg.mp4)
 
@@ -37,10 +53,10 @@ Carlos Alexandro Becker
 
 - @caarlos0 most places
 - works @charmbracelet
-- maintainer @goreleaser
+- maintains @goreleaser
 - https://caarlos0.dev
 
-<!-- TODO: photo -->
+![fit right](https://github.com/caarlos0.png)
 
 ---
 
@@ -48,10 +64,10 @@ Carlos Alexandro Becker
 
 # Agenda
 
-- TUI vs CLI
+- CLIs x TUIs
 - Intro to terminals
 - Intro to SSH
-- Making a TUI in Go
+- Building a TUI in Go
 - Serving it over SSH
 - Closing thoughts
 
@@ -64,7 +80,7 @@ questions
 
 ![autoplay mute loop](bg.mp4)
 
-# TUIs & CLIs
+# CLIs x TUIs
 
 ---
 
@@ -73,9 +89,16 @@ questions
 ## Command Line Interfaces
 
 - User gives input through commands, gets results printed below them
-- Might also take inputs through args, flags, environment variables
-- Are usually non-interactive (except maybe for asking confirmations)
-- Examples: shells (bash, zsh, fish), git, coreutils
+- Might take extra inputs through args, flags, env, config files
+- Are usually non-interactive
+- Examples: shells (bash, zsh, fish), git, coreutils, kubectl
+
+^ you can think of a shell, or things like git, kubectl, and many others
+you type commands giving them inputs and it prints the ouput, and that's pretty
+much it
+some times it might ask you to type any key to confirm or something like that,
+but usually, no interaction once the command is sent
+also, no UI either, it's usually pipe-able text output
 
 <!-- TODO: maybe example gif? -->
 
@@ -86,12 +109,12 @@ questions
 ## Text-based User Interfaces
 
 - Present themselves as an interactive application, using ASCII and Unicode characters to drawn the user interface
-- Usually mimics text inputs, buttons, etc
-- Modern examples: vim/nvim, htop, btop, tig, lazygit, lazydocker, k9s
+- Might mimic elements from modern UIs: text inputs, buttons, etc
 - Classic examples: banking software, point of sale, etc
+- Modern examples: vim/nvim, htop, btop, tig, lazygit, lazydocker, k9s
 
 ^ note that some apps might require specific fonts with extra symbols
-^ fonts its a whole lot of another problem
+fonts its a whole lot of another problem
 
 <!-- TODO: maybe example gif? -->
 
@@ -113,7 +136,7 @@ It depends...
 
 ![autoplay mute loop](bg.mp4)
 
-# Terminals 101
+# Terminals
 
 ---
 
@@ -121,7 +144,11 @@ It depends...
 
 ## Teletype Writers (TTY)
 
-![inline](https://charm.sh/Teletype_model_33_asr.80233f95c693bbe9.jpg)
+- Basically a network-connected typewriter
+- Send text over the wire to other machine
+- Get text back and prints it
+
+![right fit](https://charm.sh/Teletype_model_33_asr.80233f95c693bbe9.jpg)
 
 ^ Model 33 1930
 Teletype Corporation trademarked “teletype” for its teleprinters back in 1928.
@@ -135,11 +162,15 @@ TTY still used today to refer to terminals, emulated or otherwise
 
 ## Video Terminals
 
-![inline](https://charm.sh/DEC_VT100_terminal.309584cced5167e.jpg)
+- Like a teletype
+- Screen instead of paper
+
+![right fit](https://charm.sh/DEC_VT100_terminal.309584cced5167e.jpg)
 
 ^ still connected to another computer, but having a video display for output instead of a printer
 VTs introduced special chars to control the terminal, like esc, \n, \r, \a bell and \t tab, as well as support for ansi escape sequences - more about it later
 VT100 1978
+vt100 was one of the most popular video terminals
 
 ---
 
@@ -154,15 +185,19 @@ VT100 1978
 - The Terminal application you use, whichever it might be, is a terminal emulator
 
 ^ 1984
-around that time, VT100 was the most popular video term, and a little bit after, we got XTerm - a terminal emulator, because you guessed it: it emulated a VT - specifically, VT102
-later on it incorporated more features from more recents VTs, until VTs became a thing of the past for most of us
-whatever it is you call a terminal today, is actually a terminal emulator - its fine to call it a terminal though, we all do
+around that time, VT100 was the most popular video term, and a little bit after,
+we got XTerm - a terminal emulator, because you guessed it: it emulated a VT -
+specifically, VT102
+later on it incorporated more features from more recents VTs, until VTs became a
+thing of the past for most of us
+whatever it is you call a terminal today, is actually a terminal emulator - its
+fine to call it a terminal though, we all do
 
 ---
 
 ![autoplay mute loop](bg.mp4)
 
-## ANSI & ECMA-48
+## ANSI and ECMA-48
 
 - ANSI was the first standard
 - Colors, Cursor movement, etc
@@ -170,7 +205,10 @@ whatever it is you call a terminal today, is actually a terminal emulator - its 
 - ANSI was withdrawn in 1994
 - Everyone still calls them ANSI Sequences
 
-^ then we got the first attempt to a standard: ANSI - it had colors, cursor movements, and many more. This is all in the context of slow connections, so things need to be efficient (keep that in mind)
+^ then we got the first attempt to a standard: ANSI - it had colors, cursor
+movements, and many more.
+This is all in the context of slow connections, so things need to be efficient
+(keep that in mind)
 then ecma-48 was the international version of ansi, and ansi was withdrawn as a standard
 all that said, no one calls them ecma-48 sequenences
 
@@ -182,6 +220,14 @@ all that said, no one calls them ecma-48 sequenences
 
 - Start with an ESC (`\e`, `^[`, `\033`, or `\x1b`)
 - Several types of sequences: ESC, CSI, OSC, DCS, APC
+
+[.code-highlight: none]
+[.code-highlight: 1]
+[.code-highlight: 2]
+[.code-highlight: 3]
+[.code-highlight: 4]
+[.code-highlight: 5]
+[.code-highlight: all]
 
 ```bash
 printf '\e[6n'
@@ -201,13 +247,17 @@ DCS device control string request terminal capabilities, in this case, cols
 
 ![autoplay mute loop](bg.mp4)
 
-## Quick tip
+## Reading them
 
-- You can debug ANSI sequences with [charm.sh/sequin](https://charm.sh/sequin)
-- Built on top of
+- You can make ANSI sequences human-readable with
+  [charm.sh/sequin](https://charm.sh/sequin)
+- Its built on top of
   `charmbracelet/x/ansi`
 
 ![right 90%](https://github.com/user-attachments/assets/60cce45d-be8a-4d77-a063-a3cf3d952966)
+
+^ if you also can't really read any of that, i recommend using sequin
+if you fancy learning how all this works, you can poke into charm/x/ansi as well
 
 ---
 
