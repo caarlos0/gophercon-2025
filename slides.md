@@ -218,7 +218,7 @@ all that said, no one calls them ecma-48 sequenences
 
 ## ANSI sequences
 
-- Start with an ESC (`\e`, `^[`, `\033`, or `\x1b`)
+- Usually starts with an ESC (`\e`, `^[`, `\033`, or `\x1b`)
 - Several types of sequences: ESC, CSI, OSC, DCS, APC
 
 [.code-highlight: none]
@@ -231,14 +231,14 @@ all that said, no one calls them ecma-48 sequenences
 
 ```bash
 printf '\e[6n'
-printf '\e[033mHello Gophercon\e[0m'
+printf '\e[33mHello Gophercon\e[0m'
 printf '\e[=31;1u'
 printf '\e]0;Hello Gophercon\a'
 printf '\eP+q636F6C73\e\'
 ```
 
-^ ESC save cursor position
-Control seq introducer prints text in yellow
+^ CSI request current cursor position
+CSI prints text in yellow
 CSI enable kitty extended terminal
 OS Command sets term title
 DCS device control string request terminal capabilities, in this case, cols
