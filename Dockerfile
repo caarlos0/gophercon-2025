@@ -2,7 +2,7 @@ FROM golang:alpine as builder
 WORKDIR /usr/src/app
 COPY go.mod go.sum ./
 RUN go mod download
-COPY ./wish-auth/* .
+COPY ./wish-auth/main.go .
 RUN go build -o /tmp/gophercon-talk .
 
 FROM alpine
