@@ -16,12 +16,10 @@ theme: Charm
 
 Isn't the world basically web apps now?
 
-- Developer tooling is largely terminal-first
-- Novelty (ssh terminal.coffee)
-- Cultural and aesthetic appeal
-- Nostalgia / retro-futurism
+- Power users/developers love them
+- Faster to make
+- Novelty, aesthetics, nostalgia, "retro-futurism"
 - Resource usage / performance
-- Power users
 
 ^ before starting with anything, i know i have to convince you to care, or at
 least be a little curious about all this. so here we go.
