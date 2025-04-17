@@ -113,8 +113,8 @@ also, no UI either, it's usually pipe-able text output
 - Classic examples: banking software, point of sale, etc
 - Modern examples: vim/nvim, htop, btop, tig, lazygit, lazydocker, k9s
 
-^ note that some apps might require specific fonts with extra symbols
-fonts its a whole lot of another problem
+^ note that some apps require specific fonts with extra symbols
+fonts its a whole other problem
 
 <!-- TODO: maybe example gif? -->
 
@@ -323,12 +323,12 @@ sequenceDiagram
     Server->Client: Session ends
 ```
 
-^ this is a very summarized version on how the handshake works
-so, basically, the client inits the connection, then both client and server
-exchange supported protocol version and encryption algorithms, decide which to
+^ this is a very concise summary on how the handshake works
+sobasically, the client inits the connection, then both client and server
+exchange supported protocol versions and encryption algorithms, decide which to
 use, exchange encryption keys using diffie-hellman (for example)
 From that point forward the connection is encrypted.
-Then, finally user authentication happens, and if the server accepts, the ssh
+Finally user authentication happens, and if the server accepts, the ssh
 session begins at that point, until either party closes it.
 
 ---
@@ -365,7 +365,7 @@ finally, if you still use RSA, this is a public safety announcement: replace it 
 - SSH doesn't send the `hostname` as part of the initial handshake
 - _i18n_ and _l10n_: SSH doesn't send `TZ` and `LC*` by default
 
-^ non technical people and vibe coders in general might not know what ssh even is
+^ non technical people and vibe coders in general might not know what SSH even is
 its a bit harder to serve, as the hostname is not sent as part of the initial ssh handshake. workarounds include routing based on port and user, so no host-based routing is possible, which makes hosting harder
 i18n might be a bit more difficult, as SSH doesn't send the required variables
 yeah, that should be enough for what we plan to do today!
@@ -393,12 +393,12 @@ yeah, that should be enough for what we plan to do today!
 - Many features built in: alt screens, resizing, background color detection, cursor, focus/blur, suspend/resume, kitty keyboard, etc
 - Can be extended with Bubbles (components) and Huh (forms)
 
-^ for that, we'll use charm's bubbletea
+^ for that, we'll use charm's bubble tea
 it follows the elm-architecture, and, on v2, automatically downgrades colors based on the user terminal profile
 it has a lot of features built in, like native cursor, kitty keyboard, etc. composition is also coming eventually!
 last but not least, you can use it with conjunction of things like Bubbles and Huh to make better interactive apps
 
-<!-- TODO: bubbletea flow? -->
+<!-- TODO: bubble tea flow? -->
 
 ---
 
@@ -437,8 +437,8 @@ var _ tea.ViewModel = model{}
 type model struct {}
 ```
 
-^ we're gonna implement a simple app with it: it'll show a countdown, and stop it on any keypress.
-Its simple, but enough for what I want to demonstrate right now
+^ we're going to implement a simple app with it: it'll show a countdown, and stop it on any keypress.
+it's simple, but enough for what I want to demonstrate right now
 to do that, we need to create a struct - lets call it model, and make sure it implements tea.ViewModel
 if we need cursor handling, we would need to use tea.CursorModel instead
 we force model to conform to tea.ViewModel{}
@@ -492,7 +492,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 ```
 
-^ then, we implement Update. Here's where we handle the messages we get from the bubbletea loop.
+^ then, we implement Update. Here's where we handle the messages we get from the bubble tea loop.
 Basically, we switch against its type, if its a keypress, we instruct the
 program to quit, otherwise, we delegate it to stopwatch. A note here is that
 ideally, IO should happen only inside tea.Cmds
