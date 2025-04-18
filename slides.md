@@ -12,7 +12,7 @@ theme: Charm
 
 ![autoplay mute loop](bg.mp4)
 
-# Why even bother?
+# Why?
 
 Isn't the world basically web apps now?
 
@@ -28,16 +28,7 @@ there's also the novelty factor - being different from competition
 the cultural aspect also weights in, bringing nostalgia and retro-futurism
 on top of that, low resource usage, usually great performance, and power users
 love it
-
----
-
-![autoplay mute loop](bg.mp4)
-
-Also:
-
-# _You can just do things ✨_
-
-For the sake of doing them.
+especially if compared to desktop apps
 
 ---
 
@@ -63,9 +54,9 @@ Carlos Alexandro Becker
 # Agenda
 
 - CLIs x TUIs
-- Intro to terminals
-- Intro to SSH
-- Building a TUI in Go
+- Terminals and ANSI Sequences
+- Quick intro to SSH
+- Building a TUI with Go
 - Serving it over SSH
 - Closing thoughts
 
@@ -98,37 +89,24 @@ some times it might ask you to type any key to confirm or something like that,
 but usually, no interaction once the command is sent
 also, no UI either, it's usually pipe-able text output
 
-<!-- TODO: maybe example gif? -->
-
 ---
 
 ![autoplay mute loop](bg.mp4)
 
 ## Text-based User Interfaces
 
-- Present themselves as an interactive application, using ASCII and Unicode characters to drawn the user interface
-- Might mimic elements from modern UIs: text inputs, buttons, etc
+- Interactive applications
+- UI drawn with ASCII and Unicode symbols
+- Might mimic elements from modern UIs: text inputs, buttons
 - Classic examples: banking software, point of sale, etc
 - Modern examples: vim/nvim, htop, btop, tig, lazygit, lazydocker, k9s
 
 ^ note that some apps require specific fonts with extra symbols
 fonts its a whole other problem
-
-<!-- TODO: maybe example gif? -->
-
----
-
-## When to use one or the other?
-
-![autoplay mute loop](bg.mp4)
-
-It depends...
-
-- If you need interactivity: **TUIs**
-- If you need the ability to pipe into/from other commands, scripting, etc: **CLIs**
-- If you need both: **do both** 😄
-
-^ can detect if being piped based on if in our out are TTYs
+Present themselves as an interactive application, using ASCII and Unicode
+characters to drawn the user interface
+long eye in that classic bank teller and you'll see
+same for many pos systems
 
 ---
 
@@ -140,7 +118,7 @@ It depends...
 
 ![autoplay mute loop](bg.mp4)
 
-## Teletype Writers (TTY)
+## Teletype Writers (TTYs)
 
 - Basically a network-connected typewriter
 - Send text over the wire to other machine
@@ -158,7 +136,7 @@ TTY still used today to refer to terminals, emulated or otherwise
 
 ![autoplay mute loop](bg.mp4)
 
-## Video Terminals
+## Video Terminals (VTs)
 
 - Like a teletype
 - Screen instead of paper
@@ -172,9 +150,9 @@ vt100 was one of the most popular video terminals
 
 ---
 
-## Terminal Emulators
-
 ![autoplay mute loop](bg.mp4)
+
+## Terminal Emulators
 
 ![right fit](https://charm.sh/xterm-menus.af521a074c1bae30.gif)
 
@@ -189,13 +167,13 @@ specifically, VT102
 later on it incorporated more features from more recents VTs, until VTs became a
 thing of the past for most of us
 whatever it is you call a terminal today, is actually a terminal emulator - its
-fine to call it a terminal though, we all do
+fine to call it a terminal though, we all do, doesn't matter
 
 ---
 
 ![autoplay mute loop](bg.mp4)
 
-## ANSI and ECMA-48
+## ANSI Sequences and ECMA-48
 
 - ANSI was the first standard
 - Colors, Cursor movement, etc
@@ -207,7 +185,8 @@ fine to call it a terminal though, we all do
 movements, and many more.
 This is all in the context of slow connections, so things need to be efficient
 (keep that in mind)
-then ecma-48 was the international version of ansi, and ansi was withdrawn as a standard
+then ecma-48 was introed as the international version of ansi, and ansi was
+eventually withdrawn as a standard in 94
 all that said, no one calls them ecma-48 sequenences
 
 ---
@@ -218,6 +197,7 @@ all that said, no one calls them ecma-48 sequenences
 
 - Usually starts with an ESC (`\e`, `^[`, `\033`, or `\x1b`)
 - Several types of sequences: ESC, CSI, OSC, DCS, APC
+- New sequences are still being created
 
 [.code-highlight: none]
 [.code-highlight: 1]
@@ -261,9 +241,9 @@ if you fancy learning how all this works, you can poke into charm/x/ansi as well
 
 ![autoplay mute loop](bg.mp4)
 
-## Time to Go
+## ANSI Sequences in Go
 
-We can do the same with Lip Gloss and x/ansi
+We can do the same with Lip Gloss and `x/ansi`
 
 ```go
 import (
@@ -280,8 +260,10 @@ fmt.Print(ansi.RequestTermcap("cols"))
 ```
 
 ^ at charm we have a couple of libs
-lipgloss handles styling, and ansi has helpers for all common and some uncommon ansi sequences
-Most of the time, you'll only need lipgloss though
+lipgloss handles styling, and ansi has helpers for all common and some uncommon
+ansi sequences
+Most of the time, you'll only need lipgloss though, as bubble tea handles the
+other stuff in a more user-friendly way
 
 ---
 
@@ -290,6 +272,12 @@ Most of the time, you'll only need lipgloss though
 ![inline](./lipgloss.png)
 
 ^ the ansi sequences are hidden :)
+some of the commands before request information, but xterm.js chose to not print
+their responses.
+anyway, all other sequences we used there don't have any visible effects, so,
+yeah, you still get just the yellow text
+if you run it in your term, you might get some ansi sequences as response.
+you can use sequin to read them :)
 
 ---
 
@@ -298,8 +286,8 @@ Most of the time, you'll only need lipgloss though
 # The Secure SHell
 
 ^ Now that we learned a bit about terminals, and ansi sequences, lets move into ssh
-
-<!-- TODO: simple ssh connection flow maybe? -->
+to clarify, we're gonna talk about the protocol, not about openssh, the most
+common server/client implementation
 
 ---
 
@@ -307,15 +295,13 @@ Most of the time, you'll only need lipgloss though
 
 ## SSH
 
-How it works[^1]:
-
-[^1]: _Very_ summarized.
+How it works:
 
 ```mermaid
 sequenceDiagram
     Client->>Server: Initial connection
     Server->Client: Protocol versions and encryption algorithms exchange
-    Server->Client: Exchange encryption keys
+    Server->Client: Encryption keys exchange (Diffie-Hellman)
     Server->Client: User authentication
     Server->Client: Session begins
     Server->Client: Session ends
@@ -388,7 +374,7 @@ yeah, that should be enough for what we plan to do today!
 
 - Elm-style: `Init`, `Update`, `View`
 - Automatically downgrade colors based on user's terminal
-- Many features built in: alt screens, resizing, background color detection, cursor, focus/blur, suspend/resume, kitty keyboard, etc
+- Many features built in: alt screens, resizing, background color detection, cursor, focus/blur, suspend/resume, kitty keyboard
 - Can be extended with Bubbles (components) and Huh (forms)
 
 ^ for that, we'll use charm's bubble tea
@@ -446,6 +432,12 @@ we force model to conform to tea.ViewModel{}
 ![autoplay mute loop](bg.mp4)
 
 ## Bubble Tea
+
+[.code-highlight: none]
+[.code-highlight: 1]
+[.code-highlight: 4-5]
+[.code-highlight: 8-10]
+[.code-highlight: all]
 
 ```go
 import "github.com/charmbracelet/bubbles/v2/stopwatch"
@@ -971,7 +963,7 @@ $ TZ=America/Sao_Paulo ssh \    # current time in german
 
 - Learn more about ANSI sequences (see: [charm.sh/sequin](https://charm.sh/sequin))
 - Use more components from [charm.sh/bubbles](https://charm.sh/bubbles) and [charm.sh/huh](https://charm.sh/huh)
-- Dig through [charm.sh/wish](https://charm.sh/wish) and [charm.sh/bubbletea](https://charm.sh/bubbletea) examples folders
+- Dig through [charm.sh/wish](https://charm.sh/wish) and [charm.sh/bubbletea](https://charm.sh/bubbletea) examples
 - Deploy it somewhere (easy enough on [fly.io](https://fly.io))
 - Tell the world about what you built 🔥
 
