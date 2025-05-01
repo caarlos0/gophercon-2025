@@ -42,7 +42,7 @@ Carlos Alexandro Becker
 - maintains `@goreleaser`
 - [`caarlos0.dev`](https://caarlos0.dev)
 
-![fit right](https://github.com/caarlos0.png)
+![fit right](https://carlosbecker.com/carlos-and-bash.png)
 
 ---
 
@@ -320,6 +320,9 @@ sequenceDiagram
 sobasically, the client inits the connection, then both client and server
 exchange supported protocol versions and encryption algorithms, decide which to
 use, exchange encryption keys using diffie-hellman (for example)
+Diffie-Hellman is a cryptographic key exchange protocol that allows two parties
+to securely establish a shared secret key over an insecure communication channel
+without requiring prior shared secrets.
 From that point forward the connection is encrypted.
 Finally user authentication happens, and if the server accepts, the ssh
 session begins at that point, until either party closes it.
@@ -388,8 +391,6 @@ yeah, that should be enough for what we plan to do today!
 it follows the elm-architecture, and, on v2, automatically downgrades colors based on the user terminal profile
 it has a lot of features built in, like native cursor, kitty keyboard, etc. composition is also coming eventually!
 last but not least, you can use it with conjunction of things like Bubbles and Huh to make better interactive apps
-
-<!-- TODO: bubble tea flow? -->
 
 ---
 
@@ -865,7 +866,7 @@ server closed happens when the server is stopped, and its not bad in this partic
 [.code-highlight: 1-3, 7-10]
 
 ```go
-carlos, _, _, , _ := ssh.ParseAuthorizedKey([]byte(
+carlos, _, _, _, _ := ssh.ParseAuthorizedKey([]byte(
   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL...",
 ))
 
