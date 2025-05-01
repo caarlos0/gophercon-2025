@@ -416,9 +416,9 @@ flowchart LR
 ```go
 import tea "github.com/charmbracelet/bubbletea/v2"
 
-var _ tea.ViewModel = model{}
-
 type model struct {}
+
+var _ tea.ViewModel = model{}
 ```
 
 ^ we're going to implement a simple app with it: it'll show a countdown, and stop it on any keypress.
@@ -494,13 +494,16 @@ ideally, IO should happen only inside tea.Cmds
 ## Bubble Tea
 
 [.code-highlight: none]
-[.code-highlight: 2-3]
-[.code-highlight: 4-7]
-[.code-highlight: 14]
-[.code-highlight: 11-13]
+[.code-highlight: 1]
+[.code-highlight: 4-5]
+[.code-highlight: 6-9]
+[.code-highlight: 16]
+[.code-highlight: 13-15]
 [.code-highlight: all]
 
 ```go
+import "github.com/charmbracelet/lipgloss/v2"
+
 var (
 	byeStyle = lipgloss.NewStyle().
 			Foreground(lipgloss.BrightBlack)
@@ -545,7 +548,7 @@ func main() {
 
 func newModel() model {
   return model{
-    stopwatch.New(stopwatch.WithInterval(10 * time.Second)),
+    stopwatch.New(stopwatch.WithInterval(time.Second)),
   }
 }
 ```
