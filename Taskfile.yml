@@ -16,6 +16,7 @@ tasks:
       - 'freeze --config full -o lipgloss.png --execute "go run ./lipgloss/main.go"'
     sources:
       - ./lipgloss/*
+      - go.mod
     generates:
       - ./lipgloss.png
 
@@ -25,6 +26,7 @@ tasks:
     sources:
       - ./bubbletea/*
       - ./bubbletea.tape
+      - go.mod
     generates:
       - ./bubbletea.gif
 
@@ -34,6 +36,7 @@ tasks:
     sources:
       - ./bubbletea-bubbles/*
       - ./bubbletea-bubbles.tape
+      - go.mod
     generates:
       - ./bubbletea-bubbles.gif
 
@@ -43,6 +46,7 @@ tasks:
     sources:
       - ./wish/*
       - ./wish.tape
+      - go.mod
     generates:
       - ./wish.gif
 
@@ -52,5 +56,6 @@ tasks:
     sources:
       - ./wish-auth/*
       - ./wish-auth.tape
+      - go.mod
     generates:
       - ./wish-auth.gif
