@@ -26,21 +26,21 @@ Type j
 
 Sleep 1s
 Type "ssh -p 23234 -o PreferredAuthentications=publickey localhost" Enter
-Sleep 2s
+Sleep 5s
 Enter
 
 Type "ssh -p 23234 -o PreferredAuthentications=password localhost" Enter
-Sleep 1s
-Type "how you turn this on" Enter
 Sleep 2s
+Type "how you turn this on" Enter
+Sleep 5s
 Enter
 
 Type "ssh -p 23234 -o PreferredAuthentications=keyboard-interactive localhost" Enter
-Sleep 1s
+Sleep 2s
 Type "5" Enter
-Sleep 1s
+Sleep 2s
 Type "vim" Enter
-Sleep 1s
+Sleep 2s
 Type "nope" Enter
 Sleep 10s
 Enter

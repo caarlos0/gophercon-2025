@@ -1,4 +1,3 @@
-build-lists: true
 slidenumbers: true
 footer: Carlos Becker - Gophercon Latam 2025
 slide-transition: fade(0.5)
@@ -17,9 +16,9 @@ theme: Charm
 Isn't the world basically web apps now?
 
 - Power users/developers love them
-- Faster to make
-- Novelty, aesthetics, nostalgia, "retro-futurism"
+- Faster to make (vs Desktop app)
 - Resource usage / performance
+- Looks: novelty, aesthetics, nostalgia, "retro-futurism"
 
 ^ before starting with anything, i know i have to convince you to care, or at
 least be a little curious about all this. so here we go.
@@ -32,18 +31,16 @@ especially if compared to desktop apps
 
 ---
 
-[.build-lists: false]
-
 ![autoplay mute loop](bg.mp4)
 
 # $ whoami
 
 Carlos Alexandro Becker
 
-- @caarlos0 most places
-- works @charmbracelet
-- maintains @goreleaser
-- https://caarlos0.dev
+- `@caarlos0` most places
+- works `@charmbracelet`
+- maintains `@goreleaser`
+- [`caarlos0.dev`](https://caarlos0.dev)
 
 ![fit right](https://github.com/caarlos0.png)
 
@@ -55,10 +52,9 @@ Carlos Alexandro Becker
 
 - CLIs x TUIs
 - Terminals and ANSI Sequences
-- Quick intro to SSH
+- SSH
 - Building a TUI with Go
-- Serving it over SSH
-- Closing thoughts
+- Serving it over SSH (with Go)
 
 ^ so, we already seen some reasons to do this, but let's explore a bit TUIs vs
 CLIs, an intro to terminals (and ansi seqs), an intro to ssh, then we'll move
@@ -77,10 +73,11 @@ questions
 
 ## Command Line Interfaces
 
-- User gives input through commands, gets results printed below them
-- Might take extra inputs through args, flags, env, config files
-- Are usually non-interactive
-- Examples: shells (bash, zsh, fish), git, coreutils, kubectl
+- User gives input by typing commands
+- Prompts, args, flags, env, configuration files, STDIN
+- Usually non-interactive (y/N)
+- Easy to script
+- Examples: shells (bash, zsh, fish), git, coreutils, kubectl, docker
 
 ^ you can think of a shell, or things like git, kubectl, and many others
 you type commands giving them inputs and it prints the ouput, and that's pretty
@@ -95,9 +92,10 @@ also, no UI either, it's usually pipe-able text output
 
 ## Text-based User Interfaces
 
+- Input via UI drawn with ASCII and Unicode symbols
 - Interactive applications
-- UI drawn with ASCII and Unicode symbols
 - Might mimic elements from modern UIs: text inputs, buttons
+- Not too easy to script
 - Classic examples: banking software, point of sale, etc
 - Modern examples: vim/nvim, htop, btop, tig, lazygit, lazydocker, k9s
 
@@ -112,6 +110,17 @@ same for many pos systems
 
 ![autoplay mute loop](bg.mp4)
 
+## Good news though
+
+- You can do both!
+  - `--interactive`/`--non-interactive` flags
+  - Check if `STDIN`/`STDOUT` is a TTY
+- Get the best of both worlds :)
+
+---
+
+![autoplay mute loop](bg.mp4)
+
 # Terminals
 
 ---
@@ -120,7 +129,7 @@ same for many pos systems
 
 ## Teletype Writers (TTYs)
 
-- Basically a network-connected typewriter
+- Basically a network-connected (serial) typewriter
 - Send text over the wire to other machine
 - Get text back and prints it
 
@@ -359,8 +368,6 @@ yeah, that should be enough for what we plan to do today!
 ![autoplay mute loop](bg.mp4)
 
 # Making a TUI
-
-<!-- TODO: add an image here? -->
 
 ^ That said, lets step into making an interactive app
 
@@ -721,6 +728,30 @@ func newModel() model {
 
 ![autoplay mute loop](bg.mp4)
 
+## Bubbles
+
+[.column]
+
+- `filepicker`
+- `help`
+- `list`
+- `paginator`
+- `progress`
+
+[.column]
+
+- `table`
+- `textarea`
+- `textinput`
+- `timer`
+- `viewport`
+
+^ other components you might use with bubbles
+
+---
+
+![autoplay mute loop](bg.mp4)
+
 # Serving it over SSH
 
 ^ now, let's finally serve these over ssh
@@ -968,15 +999,12 @@ $ TZ=America/Sao_Paulo ssh \    # current time in german
 - Use more components from [charm.sh/bubbles](https://charm.sh/bubbles) and [charm.sh/huh](https://charm.sh/huh)
 - Dig through [charm.sh/wish](https://charm.sh/wish) and [charm.sh/bubbletea](https://charm.sh/bubbletea) examples
 - Deploy it somewhere (easy enough on [fly.io](https://fly.io))
-- Tell the world about what you built 🔥
 
 ---
 
 ![autoplay mute loop](bg.mp4)
 
-# Thank you!
-
-## Questions?
+![inline](./thanks.gif)
 
 ---
 
@@ -984,17 +1012,7 @@ $ TZ=America/Sao_Paulo ssh \    # current time in german
 
 ## Links
 
-[.build-lists: false]
-
 - [charm.sh](https://charm.sh)
 - [caarlos0.dev](https://caarlos0.dev)
 - [goreleaser.com](https://goreleaser.com)
-- [caarlos0/gophercon-2025](https://github.com/caarlos0/gophercon-2025)
-
-<!-- TODO: add more images -->
-<!-- - ssh handshake -->
-<!-- - bubbletea loop -->
-<!-- - some cool examples maybe? -->
-<!-- TODO: pty vs tty? -->
-<!-- TODO: maybe add some dates? -->
-<!-- TODO: TOFU? -->
+- [github.com/caarlos0/gophercon-2025](https://github.com/caarlos0/gophercon-2025)

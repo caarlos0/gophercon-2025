@@ -68,3 +68,14 @@ It depends...
 ^ can detect if being piped based on if in our out are TTYs
 
 ---
+
+![autoplay mute loop](bg.mp4)
+
+## Outro: `tty` vs `pty`
+
+- `echo Hi >>/dev/tty`: your current session
+- `/dev/tty*`: terminal devices
+- `/dev/pts/*`: pseudo-tty for each term in use
+- ptys connect to ttys
+
+^ its basically a mess and depends on the OS,
