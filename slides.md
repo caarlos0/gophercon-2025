@@ -360,11 +360,14 @@ finally, if you still use RSA, this is a public safety announcement: replace it 
 - Most non-technical people don't use or know what SSH is
 - SSH doesn't send the `hostname` as part of the initial handshake
 - _i18n_ and _l10n_: SSH doesn't send `TZ` and `LC*` by default
+- Handshake is a bit slow (see: `ControlPersist`/`man ssh_config`)
 
 ^ non technical people and vibe coders in general might not know what SSH even is
 its a bit harder to serve, as the hostname is not sent as part of the initial ssh handshake. workarounds include routing based on port and user, so no host-based routing is possible, which makes hosting harder
 i18n might be a bit more difficult, as SSH doesn't send the required variables
 yeah, that should be enough for what we plan to do today!
+handshake is slow due to what we talked about before, you can circumvent that by
+using ContolMaster and ControlPersist
 
 ---
 
