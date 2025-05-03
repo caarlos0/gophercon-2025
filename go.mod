@@ -6,11 +6,11 @@ toolchain go1.24.1
 
 require (
 	github.com/charmbracelet/bubbles/v2 v2.0.0-beta.1
-	github.com/charmbracelet/bubbletea/v2 v2.0.0-beta1
+	github.com/charmbracelet/bubbletea/v2 v2.0.0-beta.3
 	github.com/charmbracelet/lipgloss/v2 v2.0.0-beta1
-	github.com/charmbracelet/log/v2 v2.0.0-20250114165231-978e92235d71
+	github.com/charmbracelet/log/v2 v2.0.0-20250226163916-c379e29ff706
 	github.com/charmbracelet/ssh v0.0.0-20250429213052-383d50896132
-	github.com/charmbracelet/wish/v2 v2.0.0-20250213132509-ab914a876881
+	github.com/charmbracelet/wish/v2 v2.0.0-20250328000358-93bac50f7f6a
 	github.com/charmbracelet/x/ansi v0.9.2
 	golang.org/x/crypto v0.37.0
 )
@@ -19,10 +19,10 @@ require (
 	github.com/anmitsu/go-shlex v0.0.0-20200514113438-38f4b401e2be // indirect
 	github.com/charmbracelet/colorprofile v0.3.1 // indirect
 	github.com/charmbracelet/keygen v0.5.3 // indirect
-	github.com/charmbracelet/x/cellbuf v0.0.13 // indirect
+	github.com/charmbracelet/x/cellbuf v0.0.14-0.20250501183327-ad3bc78c6a81 // indirect
 	github.com/charmbracelet/x/conpty v0.1.0 // indirect
-	github.com/charmbracelet/x/errors v0.0.0-20250430194956-394c4f891283 // indirect
-	github.com/charmbracelet/x/input v0.3.4 // indirect
+	github.com/charmbracelet/x/errors v0.0.0-20250501183327-ad3bc78c6a81 // indirect
+	github.com/charmbracelet/x/input v0.3.5-0.20250424101541-abb4d9a9b197 // indirect
 	github.com/charmbracelet/x/term v0.2.1 // indirect
 	github.com/charmbracelet/x/termios v0.1.1 // indirect
 	github.com/charmbracelet/x/windows v0.2.1 // indirect

@@ -256,7 +256,7 @@ We can do the same with Lip Gloss and `x/ansi`
 
 ```go
 import (
-  "github.com/charmbracelet/lipgloss/v2")
+  "github.com/charmbracelet/lipgloss/v2"
   "github.com/charmbracelet/x/ansi"
 )
 
