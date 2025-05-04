@@ -76,7 +76,7 @@ var spinStyle = lipgloss.NewStyle().
 
 func (m model) View() string {
 	if m.quitting {
-		return byeStyle.Render("Bye!")
+		return byeStyle.Render("Bye!\n")
 	}
 
 	return lipgloss.JoinHorizontal(

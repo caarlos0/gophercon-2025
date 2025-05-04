@@ -526,7 +526,7 @@ var (
 
 func (m model) View() string {
 	if m.quitting {
-		return byeStyle.Render("Bye!")
+		return byeStyle.Render("Bye!\n")
 	}
 	return swStyle.Render(m.sw.View())
 }
@@ -683,7 +683,7 @@ var spinStyle = lipgloss.NewStyle().
 
 func (m model) View() string {
 	if m.quitting {
-		return byeStyle.Render("Bye!")
+		return byeStyle.Render("Bye!\n")
 	}
 
 	return lipgloss.JoinHorizontal(
@@ -963,6 +963,30 @@ ln6 name & instruction
 ![inline](./wish-auth.gif)
 
 ^ and this is we trying out all the 3 auth methods
+
+---
+
+![autoplay mute loop](bg.mp4)
+
+## Wish
+
+[.column]
+
+- `accesscontrol`
+- `comment`
+- `elapsed`
+- `git`
+
+[.column]
+
+- `ratelimiter`
+- `recover`
+- `scp`
+- `promwish`
+
+^ access limit commands the user can run
+comment prints some text on sess end, elapsed prints time
+scp server so you can scp files into your app (micro blog app)
 
 ---
 

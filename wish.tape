@@ -26,7 +26,7 @@ Type j
 
 Sleep 1s
 Type "ssh -p 23234 localhost" Enter
-Sleep 3s
+Sleep 10s
 Enter
 Sleep 10s
 

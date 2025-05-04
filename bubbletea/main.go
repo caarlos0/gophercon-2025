@@ -45,7 +45,7 @@ var (
 
 func (m model) View() string {
 	if m.quitting {
-		return byeStyle.Render("Bye!")
+		return byeStyle.Render("Bye!\n")
 	}
 	return swStyle.Render(m.sw.View())
 }

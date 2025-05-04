@@ -26,13 +26,13 @@ Type j
 
 Sleep 1s
 Type "ssh -p 23234 -o PreferredAuthentications=publickey localhost" Enter
-Sleep 5s
+Sleep 10s
 Enter
 
 Type "ssh -p 23234 -o PreferredAuthentications=password localhost" Enter
 Sleep 2s
 Type "how you turn this on" Enter
-Sleep 5s
+Sleep 10s
 Enter
 
 Type "ssh -p 23234 -o PreferredAuthentications=keyboard-interactive localhost" Enter

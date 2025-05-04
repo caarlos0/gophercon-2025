@@ -4,6 +4,6 @@ Set WindowBarSize 50
 Output bubbletea-bubbles.gif
 Type "go run ./bubbletea-bubbles/main.go"
 Enter
-Sleep 6s
+Sleep 10s
 Enter
-Sleep 2s
+Sleep 3s
