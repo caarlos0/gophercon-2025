@@ -992,12 +992,22 @@ scp server so you can scp files into your app (micro blog app)
 
 ![autoplay mute loop](bg.mp4)
 
+# What's next?
+
+![inline](./fireworks.gif)
+
+^ we made an app, whats next now?
+
+---
+
+![autoplay mute loop](bg.mp4)
+
 ## Live examples
 
 ```console
 $ ssh gophercon-talk.fly.dev    # what we did today
 $ ssh git.charm.sh              # soft serve git server
-$ ssh modchip.charm.sh          # ai over ssh
+$ ssh modchip.ai                # ai over ssh
 $ ssh terminal.pet              # keep it alive
 $ ssh terminal.coffee           # buy coffee
 $ ssh -p2222 ssh.caarlos0.dev   # confetti
@@ -1011,22 +1021,14 @@ $ TZ=America/Sao_Paulo ssh \    # current time in german
 
 ![autoplay mute loop](bg.mp4)
 
-# What's next?
-
-^ ok.. what now?
-
----
-
-![autoplay mute loop](bg.mp4)
-
 ## Next steps
 
-^ there's always more, isn't it?
-
-- Learn more about ANSI sequences (see: [charm.sh/sequin](https://charm.sh/sequin))
-- Use more components from [charm.sh/bubbles](https://charm.sh/bubbles) and [charm.sh/huh](https://charm.sh/huh)
-- Dig through [charm.sh/wish](https://charm.sh/wish) and [charm.sh/bubbletea](https://charm.sh/bubbletea) examples
-- Deploy it somewhere (easy enough on [fly.io](https://fly.io))
+- Learn more about ANSI sequences ([charm.sh/sequin](https://charm.sh/sequin))
+- Use more components from [charm.sh/bubbles](https://charm.sh/bubbles) and
+  [charm.sh/huh](https://charm.sh/huh)
+- Dig through [charm.sh/wish](https://charm.sh/wish) and
+  [charm.sh/bubbletea](https://charm.sh/bubbletea) examples
+- Deploy it somewhere (see: [fly.io](https://fly.io))
 
 ---
 

@@ -5,11 +5,20 @@ version: "3"
 tasks:
   assets:
     cmds:
+      - task: fireworks
       - task: lipgloss
       - task: bubbletea
       - task: bubbletea-bubbles
       - task: wish
       - task: wish-auth
+
+  fireworks:
+    cmds:
+      - "vhs fireworks.tape"
+    sources:
+      - ./fireworks.tape
+    generates:
+      - ./fireworks.gif
 
   lipgloss:
     cmds:
