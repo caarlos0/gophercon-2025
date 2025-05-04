@@ -51,10 +51,11 @@ Carlos Alexandro Becker
 # Agenda
 
 - CLIs x TUIs
-- Terminals and ANSI Sequences
+- Terminals
+- ANSI Sequences
 - SSH
-- Building a TUI with Go
-- Serving it over SSH (with Go)
+- Building a TUI
+- Serving it over SSH
 
 ^ so, we already seen some reasons to do this, but let's explore a bit TUIs vs
 CLIs, an intro to terminals (and ansi seqs), an intro to ssh, then we'll move
