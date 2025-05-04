@@ -18,8 +18,8 @@ github.com/charmbracelet/log/v2 v2.0.0-20250226163916-c379e29ff706 h1:WkwO6Ks3mS
 github.com/charmbracelet/log/v2 v2.0.0-20250226163916-c379e29ff706/go.mod h1:mjJGp00cxcfvD5xdCa+bso251Jt4owrQvuimJtVmEmM=
 github.com/charmbracelet/ssh v0.0.0-20250429213052-383d50896132 h1:ILyX/vWS/SeHfyuMFAsaV95jEKrwivNUkA8tE7JEXs4=
 github.com/charmbracelet/ssh v0.0.0-20250429213052-383d50896132/go.mod h1:R9cISUs5kAH4Cq/rguNbSwcR+slE5Dfm8FEs//uoIGE=
-github.com/charmbracelet/wish/v2 v2.0.0-20250328000358-93bac50f7f6a h1:K+X0iNqDhVbjbPsXIh/HFfa5rBbhaH0aQQGzfMhGh8Q=
-github.com/charmbracelet/wish/v2 v2.0.0-20250328000358-93bac50f7f6a/go.mod h1:sa+xyPJGyNn2g9WTIMGVhwHniS92FWjcfPPYROIq80c=
+github.com/charmbracelet/wish/v2 v2.0.0-20250504202143-30cca573b960 h1:xPWtNKQWpAB3VzXdv7diJiWe1a/0euqaGiqKu8CneUs=
+github.com/charmbracelet/wish/v2 v2.0.0-20250504202143-30cca573b960/go.mod h1:mw9f9dQ6arUWRm8ZguSbJi5qjvEeT9RE8PHE6bRXcDU=
 github.com/charmbracelet/x/ansi v0.9.2 h1:92AGsQmNTRMzuzHEYfCdjQeUzTrgE1vfO5/7fEVoXdY=
 github.com/charmbracelet/x/ansi v0.9.2/go.mod h1:3RQDQ6lDnROptfpWuUVIUG64bD2g2BgntdxH0Ya5TeE=
 github.com/charmbracelet/x/cellbuf v0.0.14-0.20250501183327-ad3bc78c6a81 h1:iGrflaL5jQW6crML+pZx/ulWAVZQR3CQoRGvFsr2Tyg=

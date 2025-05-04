@@ -455,8 +455,8 @@ we force model to conform to tea.ViewModel{}
 import "github.com/charmbracelet/bubbles/v2/stopwatch"
 
 type model struct {
-	sw       stopwatch.Model
-	quitting bool
+  sw       stopwatch.Model
+  quitting bool
 }
 
 func (m model) Init() tea.Cmd {
@@ -517,19 +517,19 @@ ideally, IO should happen only inside tea.Cmds
 import "github.com/charmbracelet/lipgloss/v2"
 
 var (
-	byeStyle = lipgloss.NewStyle().
-			Foreground(lipgloss.BrightBlack)
-	swStyle = lipgloss.NewStyle().
-		Foreground(lipgloss.Yellow).
-		Bold(true).
-		Italic(true)
+  byeStyle = lipgloss.NewStyle().
+      Foreground(lipgloss.BrightBlack)
+  swStyle = lipgloss.NewStyle().
+    Foreground(lipgloss.Yellow).
+    Bold(true).
+    Italic(true)
 )
 
 func (m model) View() string {
-	if m.quitting {
-		return byeStyle.Render("Bye!\n")
-	}
-	return swStyle.Render(m.sw.View())
+  if m.quitting {
+    return byeStyle.Render("Bye!\n")
+  }
+  return swStyle.Render(m.sw.View())
 }
 ```
 
@@ -597,11 +597,11 @@ import "github.com/charmbracelet/bubbles/v2/spinner"
 import "github.com/charmbracelet/bubbles/v2/textinput"
 
 type model struct {
-	sw         stopwatch.Model
-	sp         spinner.Model
-	ti         textinput.Model
-	quitting   bool
-	suspending bool
+  sw         stopwatch.Model
+  sp         spinner.Model
+  ti         textinput.Model
+  quitting   bool
+  suspending bool
 }
 ```
 
@@ -621,10 +621,10 @@ we can import the bubbles spinner pkg, and add its model into our own.
 
 ```go
 func (m model) Init() tea.Cmd {
-	return tea.Batch(
-		m.sw.Start(),
-		m.sp.Tick,
-	)
+  return tea.Batch(
+    m.sw.Start(),
+    m.sp.Tick,
+  )
 }
 ```
 
@@ -648,21 +648,21 @@ are triggered.
 
 ```go
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-	switch msg := msg.(type) {
-	case tea.WindowSizeMsg:
-		m.ti.SetWidth(msg.Width)
-	case tea.KeyPressMsg:
-		switch msg.String() {
-		case "ctrl+c", "enter":
-			m.quitting = true
-			return m, tea.Quit
-		case "ctrl+z":
-			m.suspending = true
-			return m, tea.Suspend
-		}
-	case tea.ResumeMsg:
-		m.suspending = false
-	}
+  switch msg := msg.(type) {
+  case tea.WindowSizeMsg:
+    m.ti.SetWidth(msg.Width)
+  case tea.KeyPressMsg:
+    switch msg.String() {
+    case "ctrl+c", "enter":
+      m.quitting = true
+      return m, tea.Quit
+    case "ctrl+z":
+      m.suspending = true
+      return m, tea.Suspend
+    }
+  case tea.ResumeMsg:
+    m.suspending = false
+  }
   // ...
 ```
 
@@ -679,15 +679,15 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 ```go
   // ...
-	var cmd tea.Cmd
-	var cmds []tea.Cmd
-	m.sw, cmd = m.sw.Update(msg)
-	cmds = append(cmds, cmd)
-	m.sp, cmd = m.sp.Update(msg)
-	cmds = append(cmds, cmd)
-	m.ti, cmd = m.ti.Update(msg)
-	cmds = append(cmds, cmd)
-	return m, tea.Batch(cmds...)
+  var cmd tea.Cmd
+  var cmds []tea.Cmd
+  m.sw, cmd = m.sw.Update(msg)
+  cmds = append(cmds, cmd)
+  m.sp, cmd = m.sp.Update(msg)
+  cmds = append(cmds, cmd)
+  m.ti, cmd = m.ti.Update(msg)
+  cmds = append(cmds, cmd)
+  return m, tea.Batch(cmds...)
 }
 ```
 
@@ -734,24 +734,24 @@ change our model to implement cursormodel instead
 
 ```go
 var spinStyle = lipgloss.NewStyle().
-	Foreground(lipgloss.BrightMagenta).
-	PaddingLeft(1).
-	PaddingRight(1)
+  Foreground(lipgloss.BrightMagenta).
+  PaddingLeft(1).
+  PaddingRight(1)
 
 func (m model) View() (string, *tea.Cursor) {
-	if m.quitting {
-		return byeStyle.Render(fmt.Sprintf("Bye %s!\n", m.ti.Value())), nil
-	}
-	if m.suspending {
-		return byeStyle.Render("See you soon!\n"), nil
-	}
+  if m.quitting {
+    return byeStyle.Render(fmt.Sprintf("Bye %s!\n", m.ti.Value())), nil
+  }
+  if m.suspending {
+    return byeStyle.Render("See you soon!\n"), nil
+  }
 
-	return m.ti.View() + "\n" +
-		lipgloss.JoinHorizontal(
-			lipgloss.Left,
-			spinStyle.Render(m.sp.View()),
-			swStyle.Render(m.sw.View()),
-		), m.ti.Cursor()
+  return m.ti.View() + "\n" +
+    lipgloss.JoinHorizontal(
+      lipgloss.Left,
+      spinStyle.Render(m.sp.View()),
+      swStyle.Render(m.sw.View()),
+    ), m.ti.Cursor()
 }
 ```
 
@@ -773,14 +773,14 @@ join both the spinner and the stopwatch
 
 ```go
 func newModel() model {
-	ti := textinput.New()
-	ti.Placeholder = "What's your name?"
-	ti.Focus()
-	return model{
-		sw: stopwatch.New(stopwatch.WithInterval(time.Second)),
-		sp: spinner.New(spinner.WithSpinner(spinner.Jump)),
-		ti: ti,
-	}}
+  ti := textinput.New()
+  ti.Placeholder = "What's your name?"
+  ti.Focus()
+  return model{
+    sw: stopwatch.New(stopwatch.WithInterval(time.Second)),
+    sp: spinner.New(spinner.WithSpinner(spinner.Jump)),
+    ti: ti,
+  }}
 ```
 
 ^ finally, we need to make sure to create our spinner in the model as well.
@@ -877,7 +877,7 @@ srv, err := wish.NewServer(
   ssh.AllocatePty(),
   wish.WithMiddleware(
     btm.Middleware(func(ssh.Session) (tea.Model, []tea.ProgramOption) {
-      return newModel(), nil
+      return newModel(), []tea.ProgramOption{noSuspend}
     }),
     logging.StructuredMiddleware(),
   ),
@@ -894,6 +894,25 @@ we also add a structured logging middleware. this will log all incoming connecti
 and we check errors, of course
 allocate pty allows us to use all features because it uses a real pty instead of
 the fake one by the ssh library
+
+---
+
+![autoplay mute loop](bg.mp4)
+
+## Wish
+
+Do not suspend the server[^1]:
+
+```go
+var noSuspend = tea.WithFilter(func(_ tea.Model, msg tea.Msg) tea.Msg {
+  if _, ok := msg.(tea.SuspendMsg); ok {
+    return tea.ResumeMsg{}
+  }
+  return msg
+})
+```
+
+[^1]: https://github.com/charmbracelet/wish/pull/457
 
 ---
 
@@ -1119,3 +1138,5 @@ $ TZ=America/Sao_Paulo ssh \    # current time in german
 - [caarlos0.dev](https://caarlos0.dev)
 - [goreleaser.com](https://goreleaser.com)
 - [github.com/caarlos0/gophercon-2025](https://github.com/caarlos0/gophercon-2025)
+
+<!-- vim: set tabstop=2 shiftwidth=2 expandtab -->

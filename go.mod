@@ -10,7 +10,7 @@ require (
 	github.com/charmbracelet/lipgloss/v2 v2.0.0-beta1
 	github.com/charmbracelet/log/v2 v2.0.0-20250226163916-c379e29ff706
 	github.com/charmbracelet/ssh v0.0.0-20250429213052-383d50896132
-	github.com/charmbracelet/wish/v2 v2.0.0-20250328000358-93bac50f7f6a
+	github.com/charmbracelet/wish/v2 v2.0.0-20250504202143-30cca573b960
 	github.com/charmbracelet/x/ansi v0.9.2
 	golang.org/x/crypto v0.37.0
 )

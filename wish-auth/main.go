@@ -59,16 +59,7 @@ func main() {
 
 		wish.WithMiddleware(
 			btm.Middleware(func(s ssh.Session) (tea.Model, []tea.ProgramOption) {
-				return newModel(), []tea.ProgramOption{
-					tea.WithFilter(func(_ tea.Model, msg tea.Msg) tea.Msg {
-						switch msg.(type) {
-						case tea.SuspendMsg:
-							return tea.ResumeMsg{}
-						default:
-							return msg
-						}
-					}),
-				}
+				return newModel(), []tea.ProgramOption{noSuspend}
 			}),
 			logging.StructuredMiddleware(),
 		),
@@ -82,6 +73,14 @@ func main() {
 		log.Fatal("Could not start server", "err", err)
 	}
 }
+
+// https://github.com/charmbracelet/wish/pull/457
+var noSuspend = tea.WithFilter(func(_ tea.Model, msg tea.Msg) tea.Msg {
+	if _, ok := msg.(tea.SuspendMsg); ok {
+		return tea.ResumeMsg{}
+	}
+	return msg
+})
 
 func newModel() model {
 	ti := textinput.New()
