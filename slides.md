@@ -585,7 +585,7 @@ it aint much, but its honest work
 
 ## Bubble Tea
 
-Let's add a spinner and a text input as well:
+Let's add support for suspend, a spinner, and a text input as well:
 
 [.code-highlight: none]
 [.code-highlight: 1,2]

@@ -53,10 +53,11 @@ func newModel() model {
 var _ tea.CursorModel = model{}
 
 type model struct {
-	sw       stopwatch.Model
-	sp       spinner.Model
-	ti       textinput.Model
-	quitting bool
+	sw         stopwatch.Model
+	sp         spinner.Model
+	ti         textinput.Model
+	quitting   bool
+	suspending bool
 }
 
 func (m model) Init() tea.Cmd {
@@ -84,6 +85,9 @@ func (m model) View() (string, *tea.Cursor) {
 	if m.quitting {
 		return byeStyle.Render(fmt.Sprintf("Bye %s!\n", m.ti.Value())), nil
 	}
+	if m.suspending {
+		return byeStyle.Render("See you soon!\n"), nil
+	}
 
 	cur := m.ti.Cursor()
 
@@ -104,7 +108,12 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "ctrl+c", "enter":
 			m.quitting = true
 			return m, tea.Quit
+		case "ctrl+z":
+			m.suspending = true
+			return m, tea.Suspend
 		}
+	case tea.ResumeMsg:
+		m.suspending = false
 	}
 	var cmd tea.Cmd
 	var cmds []tea.Cmd
