@@ -711,6 +711,9 @@ its not much different from before aside of this
 +func (m model) View() (string, *tea.Cursor) {
 ```
 
+^ we need a cursor because we now will have text input, for that we need to
+change our model to implement cursormodel instead
+
 ---
 
 ![autoplay mute loop](bg.mp4)
@@ -889,6 +892,8 @@ we also need to set the host key - which you can generate with ssh-keygen
 we also use with middleware, and use the wish bubbletea middleware. there we could return some options if we wanted (like altscreen), but we don't need it now. so we simply return calling oour newModel func from before
 we also add a structured logging middleware. this will log all incoming connections. there's also prometheus middlewares, rate limit, and more
 and we check errors, of course
+allocate pty allows us to use all features because it uses a real pty instead of
+the fake one by the ssh library
 
 ---
 
@@ -1039,12 +1044,14 @@ ln6 name & instruction
 [.column]
 
 - `accesscontrol`
+- `bubbletea`
 - `comment`
 - `elapsed`
 - `git`
 
 [.column]
 
+- `logging`
 - `ratelimiter`
 - `recover`
 - `scp`
