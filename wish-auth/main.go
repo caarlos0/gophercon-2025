@@ -59,8 +59,16 @@ func main() {
 
 		wish.WithMiddleware(
 			btm.Middleware(func(s ssh.Session) (tea.Model, []tea.ProgramOption) {
-				log.Info("ENV", "env", s.Environ())
-				return newModel(), nil
+				return newModel(), []tea.ProgramOption{
+					tea.WithFilter(func(_ tea.Model, msg tea.Msg) tea.Msg {
+						switch msg.(type) {
+						case tea.SuspendMsg:
+							return tea.ResumeMsg{}
+						default:
+							return msg
+						}
+					}),
+				}
 			}),
 			logging.StructuredMiddleware(),
 		),
@@ -89,10 +97,11 @@ func newModel() model {
 var _ tea.CursorModel = model{}
 
 type model struct {
-	sw       stopwatch.Model
-	sp       spinner.Model
-	ti       textinput.Model
-	quitting bool
+	sw         stopwatch.Model
+	sp         spinner.Model
+	ti         textinput.Model
+	quitting   bool
+	suspending bool
 }
 
 func (m model) Init() tea.Cmd {
@@ -120,6 +129,9 @@ func (m model) View() (string, *tea.Cursor) {
 	if m.quitting {
 		return byeStyle.Render(fmt.Sprintf("Bye %s!\n", m.ti.Value())), nil
 	}
+	if m.suspending {
+		return byeStyle.Render("See you soon!\n"), nil
+	}
 
 	return m.ti.View() + "\n" +
 		lipgloss.JoinHorizontal(
@@ -138,7 +150,12 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "ctrl+c", "enter":
 			m.quitting = true
 			return m, tea.Quit
+		case "ctrl+z":
+			m.suspending = true
+			return m, tea.Suspend
 		}
+	case tea.ResumeMsg:
+		m.suspending = false
 	}
 	var cmd tea.Cmd
 	var cmds []tea.Cmd

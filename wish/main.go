@@ -24,7 +24,16 @@ func main() {
 		ssh.AllocatePty(),
 		wish.WithMiddleware(
 			btm.Middleware(func(ssh.Session) (tea.Model, []tea.ProgramOption) {
-				return newModel(), nil
+				return newModel(), []tea.ProgramOption{
+					tea.WithFilter(func(_ tea.Model, msg tea.Msg) tea.Msg {
+						switch msg.(type) {
+						case tea.SuspendMsg:
+							return tea.ResumeMsg{}
+						default:
+							return msg
+						}
+					}),
+				}
 			}),
 			logging.StructuredMiddleware(),
 		),
