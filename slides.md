@@ -585,20 +585,23 @@ it aint much, but its honest work
 
 ## Bubble Tea
 
-Let's add a spinner as well:
+Let's add a spinner and a text input as well:
 
 [.code-highlight: none]
-[.code-highlight: 1]
-[.code-highlight: 5]
+[.code-highlight: 1,2]
+[.code-highlight: 6,7,9]
 [.code-highlight: all]
 
 ```go
 import "github.com/charmbracelet/bubbles/v2/spinner"
+import "github.com/charmbracelet/bubbles/v2/textinput"
 
 type model struct {
-	sw       stopwatch.Model
-	sp       spinner.Model
-	quitting bool
+	sw         stopwatch.Model
+	sp         spinner.Model
+	ti         textinput.Model
+	quitting   bool
+	suspending bool
 }
 ```
 
@@ -635,24 +638,54 @@ are triggered.
 ## Bubble Tea
 
 [.code-highlight: none]
-[.code-highlight: 8]
-[.code-highlight: 10]
-[.code-highlight: 11-12]
-[.code-highlight: 13]
+[.code-highlight: 2,16]
+[.code-highlight: 3,4]
+[.code-highlight: 5,6,13]
+[.code-highlight: 7-9]
+[.code-highlight: 10-12]
+[.code-highlight: 14-15]
 [.code-highlight: all]
 
 ```go
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-	switch msg.(type) {
+	switch msg := msg.(type) {
+	case tea.WindowSizeMsg:
+		m.ti.SetWidth(msg.Width)
 	case tea.KeyPressMsg:
-		m.quitting = true
-		return m, tea.Quit
+		switch msg.String() {
+		case "ctrl+c", "enter":
+			m.quitting = true
+			return m, tea.Quit
+		case "ctrl+z":
+			m.suspending = true
+			return m, tea.Suspend
+		}
+	case tea.ResumeMsg:
+		m.suspending = false
 	}
+  // ...
+```
+
+---
+
+![autoplay mute loop](bg.mp4)
+
+## Bubble Tea
+
+[.code-highlight: none]
+[.code-highlight: 3]
+[.code-highlight: 6,7]
+[.code-highlight: 8,9]
+
+```go
+  // ...
 	var cmd tea.Cmd
 	var cmds []tea.Cmd
 	m.sw, cmd = m.sw.Update(msg)
 	cmds = append(cmds, cmd)
 	m.sp, cmd = m.sp.Update(msg)
+	cmds = append(cmds, cmd)
+	m.ti, cmd = m.ti.Update(msg)
 	cmds = append(cmds, cmd)
 	return m, tea.Batch(cmds...)
 }
@@ -668,12 +701,32 @@ its not much different from before aside of this
 
 ## Bubble Tea
 
+```diff
+-var _ tea.ViewModel = model{}
++var _ tea.CursorModel = model{}
+```
+
+```diff
+-func (m model) View() string {
++func (m model) View() (string, *tea.Cursor) {
+```
+
+---
+
+![autoplay mute loop](bg.mp4)
+
+## Bubble Tea
+
 [.code-highlight: none]
 [.code-highlight: 1-4]
-[.code-highlight: 11,15]
-[.code-highlight: 12]
-[.code-highlight: 13]
+[.code-highlight: 6]
+[.code-highlight: 8]
+[.code-highlight: 10-12]
 [.code-highlight: 14]
+[.code-highlight: 15,19]
+[.code-highlight: 16]
+[.code-highlight: 17]
+[.code-highlight: 18]
 [.code-highlight: all]
 
 ```go
@@ -682,16 +735,20 @@ var spinStyle = lipgloss.NewStyle().
 	PaddingLeft(1).
 	PaddingRight(1)
 
-func (m model) View() string {
+func (m model) View() (string, *tea.Cursor) {
 	if m.quitting {
-		return byeStyle.Render("Bye!\n")
+		return byeStyle.Render(fmt.Sprintf("Bye %s!\n", m.ti.Value())), nil
+	}
+	if m.suspending {
+		return byeStyle.Render("See you soon!\n"), nil
 	}
 
-	return lipgloss.JoinHorizontal(
-		lipgloss.Left,
-		spinStyle.Render(m.sp.View()),
-		swStyle.Render(m.sw.View()),
-	)
+	return m.ti.View() + "\n" +
+		lipgloss.JoinHorizontal(
+			lipgloss.Left,
+			spinStyle.Render(m.sp.View()),
+			swStyle.Render(m.sw.View()),
+		), m.ti.Cursor()
 }
 ```
 
@@ -707,16 +764,20 @@ join both the spinner and the stopwatch
 # Bubble Tea
 
 [.code-highlight: none]
-[.code-highlight: 3]
+[.code-highlight: 2-4]
+[.code-highlight: 7,8]
 [.code-highlight: all]
 
 ```go
 func newModel() model {
-  return model{
-    sp: spinner.New(spinner.WithSpinner(spinner.Jump)),
-    sw: stopwatch.New(stopwatch.WithInterval(time.Second)),
-  }
-}
+	ti := textinput.New()
+	ti.Placeholder = "What's your name?"
+	ti.Focus()
+	return model{
+		sw: stopwatch.New(stopwatch.WithInterval(time.Second)),
+		sp: spinner.New(spinner.WithSpinner(spinner.Jump)),
+		ti: ti,
+	}}
 ```
 
 ^ finally, we need to make sure to create our spinner in the model as well.
@@ -742,6 +803,7 @@ func newModel() model {
 - `list`
 - `paginator`
 - `progress`
+- `spinner`
 
 [.column]
 
@@ -750,6 +812,7 @@ func newModel() model {
 - `textinput`
 - `timer`
 - `viewport`
+- `stopwatch`
 
 ^ other components you might use with bubbles
 
@@ -797,16 +860,18 @@ Creating a server:
 [.code-highlight: 1,10]
 [.code-highlight: 2]
 [.code-highlight: 3]
-[.code-highlight: 4,9]
-[.code-highlight: 5-7]
-[.code-highlight: 8]
-[.code-highlight: 11-13]
+[.code-highlight: 4]
+[.code-highlight: 5,10]
+[.code-highlight: 6-8]
+[.code-highlight: 9]
+[.code-highlight: 12-14]
 [.code-highlight: all]
 
 ```go
 srv, err := wish.NewServer(
   wish.WithAddress("localhost:23234"),
   wish.WithHostKeyPath("./.ssh/id_ed25519"),
+  ssh.AllocatePty(),
   wish.WithMiddleware(
     btm.Middleware(func(ssh.Session) (tea.Model, []tea.ProgramOption) {
       return newModel(), nil

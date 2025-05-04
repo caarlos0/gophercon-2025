@@ -26,14 +26,20 @@ Type j
 
 Sleep 1s
 Type "ssh -p 23234 -o PreferredAuthentications=publickey localhost" Enter
-Sleep 10s
+Sleep 5s
+Type "Carlos"
+Sleep 5s
 Enter
+Sleep 5s
 
 Type "ssh -p 23234 -o PreferredAuthentications=password localhost" Enter
 Sleep 2s
 Type "how you turn this on" Enter
-Sleep 10s
+Sleep 5s
+Type "Carlos"
+Sleep 5s
 Enter
+Sleep 5s
 
 Type "ssh -p 23234 -o PreferredAuthentications=keyboard-interactive localhost" Enter
 Sleep 2s
@@ -42,8 +48,11 @@ Sleep 2s
 Type "vim" Enter
 Sleep 2s
 Type "nope" Enter
-Sleep 10s
+Sleep 5s
+Type "Carlos"
+Sleep 5s
 Enter
+Sleep 5s
 
 Hide
 Type "tmux kill-session -t demo" Enter

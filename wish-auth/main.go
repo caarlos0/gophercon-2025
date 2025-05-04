@@ -2,10 +2,12 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/charmbracelet/bubbles/v2/spinner"
 	"github.com/charmbracelet/bubbles/v2/stopwatch"
+	"github.com/charmbracelet/bubbles/v2/textinput"
 	tea "github.com/charmbracelet/bubbletea/v2"
 	"github.com/charmbracelet/lipgloss/v2"
 	"github.com/charmbracelet/log/v2"
@@ -24,6 +26,7 @@ func main() {
 	srv, err := wish.NewServer(
 		wish.WithAddress("0.0.0.0:23234"),
 		wish.WithHostKeyPath("./.ssh/id_ed25519"),
+		ssh.AllocatePty(),
 		wish.WithPublicKeyAuth(func(_ ssh.Context, key ssh.PublicKey) bool {
 			log.Info("public key")
 			return ssh.KeysEqual(key, carlos)
@@ -73,19 +76,22 @@ func main() {
 }
 
 func newModel() model {
+	ti := textinput.New()
+	ti.Placeholder = "What's your name?"
+	ti.Focus()
 	return model{
 		sp: spinner.New(spinner.WithSpinner(spinner.Jump)),
-		sw: stopwatch.New(
-			stopwatch.WithInterval(time.Second),
-		),
+		sw: stopwatch.New(stopwatch.WithInterval(time.Second)),
+		ti: ti,
 	}
 }
 
-var _ tea.ViewModel = model{}
+var _ tea.CursorModel = model{}
 
 type model struct {
 	sw       stopwatch.Model
 	sp       spinner.Model
+	ti       textinput.Model
 	quitting bool
 }
 
@@ -110,29 +116,37 @@ var spinStyle = lipgloss.NewStyle().
 	PaddingLeft(1).
 	PaddingRight(1)
 
-func (m model) View() string {
+func (m model) View() (string, *tea.Cursor) {
 	if m.quitting {
-		return byeStyle.Render("Bye!\n")
+		return byeStyle.Render(fmt.Sprintf("Bye %s!\n", m.ti.Value())), nil
 	}
 
-	return lipgloss.JoinHorizontal(
-		lipgloss.Left,
-		spinStyle.Render(m.sp.View()),
-		swStyle.Render(m.sw.View()),
-	)
+	return m.ti.View() + "\n" +
+		lipgloss.JoinHorizontal(
+			lipgloss.Left,
+			spinStyle.Render(m.sp.View()),
+			swStyle.Render(m.sw.View()),
+		), m.ti.Cursor()
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-	switch msg.(type) {
+	switch msg := msg.(type) {
+	case tea.WindowSizeMsg:
+		m.ti.SetWidth(msg.Width)
 	case tea.KeyPressMsg:
-		m.quitting = true
-		return m, tea.Quit
+		switch msg.String() {
+		case "ctrl+c", "enter":
+			m.quitting = true
+			return m, tea.Quit
+		}
 	}
 	var cmd tea.Cmd
 	var cmds []tea.Cmd
 	m.sw, cmd = m.sw.Update(msg)
 	cmds = append(cmds, cmd)
 	m.sp, cmd = m.sp.Update(msg)
+	cmds = append(cmds, cmd)
+	m.ti, cmd = m.ti.Update(msg)
 	cmds = append(cmds, cmd)
 	return m, tea.Batch(cmds...)
 }
