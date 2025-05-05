@@ -203,6 +203,12 @@ all that said, no one calls them ecma-48 sequenences
 
 ![autoplay mute loop](bg.mp4)
 
+# ANSI sequences
+
+---
+
+![autoplay mute loop](bg.mp4)
+
 ## ANSI sequences
 
 - Usually starts with an ESC (`\e`, `^[`, `\033`, or `\x1b`)
@@ -310,10 +316,11 @@ How it works:
 ```mermaid
 sequenceDiagram
     Client->>Server: Initial connection
-    Server->Client: Protocol versions and encryption algorithms exchange
+    Server->>Client: Protocol versions and encryption algorithms exchange
     Server->Client: Encryption keys exchange (Diffie-Hellman)
     Server->Client: User authentication
     Server->Client: Session begins
+    Server->Client: ...
     Server->Client: Session ends
 ```
 
@@ -334,37 +341,19 @@ session begins at that point, until either party closes it.
 
 ![autoplay mute loop](bg.mp4)
 
-### Biggest Ws:
-
-- Widely available
-- End-to-end encryption by default
-- User identification through public keys
-- Can pipe from/into a host from your computer
-- Can forward ports (which allow for some clever hacks)
-
-**Friendly reminder: replace your RSA keys 🙏**
-
-^ as the name implies - its a secure shell, its meant to allow remote access. The most common usage (that most of us know) is to ssh into a shell, or use it as a git remote
-traffic is end to end encrypted using AES usually - users can be authorized several ways, including public key auth, in which case they can also be uniquely identified by their key
-since ssh is a regular process, you can pipe into/from it as well (like we saw before)
-you can also forward ports from your local machine to the remote, and vice versa
-finally, if you still use RSA, this is a public safety announcement: replace it with a more modern key, like a ed25519
-
----
-
-## SSH
-
-![autoplay mute loop](bg.mp4)
-
 ### Biggest Ls:
 
 - Most non-technical people don't use or know what SSH is
 - SSH doesn't send the `hostname` as part of the initial handshake
 - _i18n_ and _l10n_: SSH doesn't send `TZ` and `LC*` by default
-- Handshake is a bit slow (see: `ControlPersist`/`man ssh_config`)
+  (`-o SendEnv`)
+- Handshake is a bit slow (`-o ControlPersist`)
+- `man ssh_config`
 
 ^ non technical people and vibe coders in general might not know what SSH even is
-its a bit harder to serve, as the hostname is not sent as part of the initial ssh handshake. workarounds include routing based on port and user, so no host-based routing is possible, which makes hosting harder
+its a bit harder to serve, as the hostname is not sent as part of the initial
+ssh handshake. workarounds include routing based on port and user, so no
+host-based routing is possible, which makes hosting harder
 i18n might be a bit more difficult, as SSH doesn't send the required variables
 yeah, that should be enough for what we plan to do today!
 handshake is slow due to what we talked about before, you can circumvent that by
@@ -372,11 +361,35 @@ using ContolMaster and ControlPersist
 
 ---
 
+## SSH
+
 ![autoplay mute loop](bg.mp4)
 
-# Making a TUI
+### Biggest Ws:
 
-^ That said, lets step into making an interactive app
+- Widely available
+- End-to-end encryption by default
+- Authentication is a solved problem
+- Can pipe from/into a host from your computer
+- Can forward ports (which allow for some clever hacks)
+
+**Friendly reminder: replace your RSA keys 🙏**
+
+^ the idea is not to discuss that to much, but its things I thought you should
+know
+as the name implies - its a secure shell, its meant to allow remote access. The most common usage (that most of us know) is to ssh into a shell, or use it as a git remote
+traffic is end to end encrypted using AES usually - users can be authorized several ways, including public key auth, in which case they can also be uniquely identified by their key
+since ssh is a regular process, you can pipe into/from it as well (like we saw before)
+you can also forward ports from your local machine to the remote, and vice versa
+finally, if you still use RSA, this is a public safety announcement: replace it with a more modern key, like a ed25519
+
+---
+
+![autoplay mute loop](bg.mp4)
+
+# Building a TUI
+
+^ That said, lets step into building an interactive app
 
 ---
 
@@ -388,7 +401,7 @@ using ContolMaster and ControlPersist
 
 - Elm-style: `Init`, `Update`, `View`
 - Automatically downgrade colors based on user's terminal
-- Many features built in: alt screens, resizing, background color detection, cursor, focus/blur, suspend/resume, kitty keyboard
+- Many features built in: alt screens, mouse, resizing, background color detection, cursor, focus/blur, suspend/resume, kitty keyboard, compositor (soon)
 - Can be extended with Bubbles (components) and Huh (forms)
 
 ^ for that, we'll use charm's bubble tea
@@ -404,7 +417,7 @@ last but not least, you can use it with conjunction of things like Bubbles and H
 
 ```mermaid
 flowchart LR
-    Init --> Msg
+    Init --> Cmd
     Msg --> Update
     Update --> View
     Update --> Cmd
@@ -588,13 +601,15 @@ it aint much, but its honest work
 Let's add support for suspend, a spinner, and a text input as well:
 
 [.code-highlight: none]
-[.code-highlight: 1,2]
-[.code-highlight: 6,7,9]
+[.code-highlight: 2,3]
+[.code-highlight: 8,9,11]
 [.code-highlight: all]
 
 ```go
-import "github.com/charmbracelet/bubbles/v2/spinner"
-import "github.com/charmbracelet/bubbles/v2/textinput"
+import (
+  "github.com/charmbracelet/bubbles/v2/spinner"
+  "github.com/charmbracelet/bubbles/v2/textinput"
+)
 
 type model struct {
   sw         stopwatch.Model
@@ -674,8 +689,10 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 [.code-highlight: none]
 [.code-highlight: 3]
+[.code-highlight: 5]
 [.code-highlight: 6,7]
 [.code-highlight: 8,9]
+[.code-highlight: 10]
 
 ```go
   // ...
@@ -730,6 +747,7 @@ change our model to implement cursormodel instead
 [.code-highlight: 16]
 [.code-highlight: 17]
 [.code-highlight: 18]
+[.code-highlight: 19]
 [.code-highlight: all]
 
 ```go
@@ -810,12 +828,12 @@ func newModel() model {
 
 [.column]
 
+- `stopwatch`
 - `table`
 - `textarea`
 - `textinput`
 - `timer`
 - `viewport`
-- `stopwatch`
 
 ^ other components you might use with bubbles
 
@@ -860,13 +878,13 @@ but first, we'll need these imports
 Creating a server:
 
 [.code-highlight: none]
-[.code-highlight: 1,10]
+[.code-highlight: 1,11]
 [.code-highlight: 2]
 [.code-highlight: 3]
 [.code-highlight: 4]
 [.code-highlight: 5,10]
-[.code-highlight: 6-8]
 [.code-highlight: 9]
+[.code-highlight: 6-8]
 [.code-highlight: 12-14]
 [.code-highlight: all]
 
@@ -951,12 +969,12 @@ server closed happens when the server is stopped, and its not bad in this partic
 
 ![autoplay mute loop](bg.mp4)
 
-## Wish: auth methods
+## Wish: public key auth
 
 [.code-highlight: none]
 [.code-highlight: 1-3]
 [.code-highlight: 7-10]
-[.code-highlight: 1-3, 7-10]
+[.code-highlight: all]
 
 ```go
 carlos, _, _, _, _ := ssh.ParseAuthorizedKey([]byte(
@@ -982,9 +1000,10 @@ we add the WithPublicKeyAuth functional option to our server and that's about it
 
 ![autoplay mute loop](bg.mp4)
 
-## Wish: auth methods
+## Wish: password auth
 
 [.code-highlight: 3-6]
+[.code-highlight: all]
 
 ```go
 srv, err := wish.NewServer(
@@ -1006,7 +1025,7 @@ hashing, salting, etc, etc. keep in mind this is a simplified example only.
 
 ![autoplay mute loop](bg.mp4)
 
-## Wish: auth methods
+## Wish: keyboard interactive auth
 
 [.code-highlight: none]
 [.code-highlight: 3,19]
@@ -1014,8 +1033,10 @@ hashing, salting, etc, etc. keep in mind this is a simplified example only.
 [.code-highlight: 6]
 [.code-highlight: 7-11]
 [.code-highlight: 12]
+[.code-highlight: 14-16]
 [.code-highlight: 17-18]
 [.code-highlight: 3-19]
+[.code-highlight: all]
 
 ```go
 srv, err := wish.NewServer(
@@ -1094,6 +1115,20 @@ scp server so you can scp files into your app (micro blog app)
 
 ![autoplay mute loop](bg.mp4)
 
+## Next steps
+
+- Access some cool SSH apps
+- Learn more about ANSI sequences ([charm.sh/sequin](https://charm.sh/sequin))
+- Use more components from [charm.sh/bubbles](https://charm.sh/bubbles) and
+  [charm.sh/huh](https://charm.sh/huh)
+- Dig through [charm.sh/wish](https://charm.sh/wish) and
+  [charm.sh/bubbletea](https://charm.sh/bubbletea) examples
+- Deploy it somewhere (e.g.: [fly.io](https://fly.io))
+
+---
+
+![autoplay mute loop](bg.mp4)
+
 ## Live examples
 
 ```console
@@ -1108,19 +1143,6 @@ $ TZ=America/Sao_Paulo ssh \    # current time in german
   -p23234 -oSendEnv=TZ \
   ssh.caarlos0.dev
 ```
-
----
-
-![autoplay mute loop](bg.mp4)
-
-## Next steps
-
-- Learn more about ANSI sequences ([charm.sh/sequin](https://charm.sh/sequin))
-- Use more components from [charm.sh/bubbles](https://charm.sh/bubbles) and
-  [charm.sh/huh](https://charm.sh/huh)
-- Dig through [charm.sh/wish](https://charm.sh/wish) and
-  [charm.sh/bubbletea](https://charm.sh/bubbletea) examples
-- Deploy it somewhere (see: [fly.io](https://fly.io))
 
 ---
 
