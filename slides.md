@@ -61,6 +61,8 @@ Carlos Alexandro Becker
 CLIs, an intro to terminals (and ansi seqs), an intro to ssh, then we'll move
 to actually writing a TUI and serving it, and finally, and then some time for
 questions
+these intros are to help you make sense of how all of this works, and there's
+also a bit of history which i find interesting
 
 ---
 
@@ -96,9 +98,8 @@ also, no UI either, it's usually pipe-able text output
 - Input via UI drawn with ASCII and Unicode symbols
 - Interactive applications
 - Might mimic elements from modern UIs: text inputs, buttons
-- Not too easy to script
-- Classic examples: banking software, point of sale, etc
-- Modern examples: vim/nvim, htop, btop, tig, lazygit, lazydocker, k9s
+- Not easy to script
+- Examples: vim/nvim, htop, btop, tig, lazygit, lazydocker, k9s
 
 ^ note that some apps require specific fonts with extra symbols
 fonts its a whole other problem
@@ -183,7 +184,13 @@ fine to call it a terminal though, we all do, doesn't matter
 
 ![autoplay mute loop](bg.mp4)
 
-## ANSI Sequences and ECMA-48
+# ANSI Sequences
+
+---
+
+![autoplay mute loop](bg.mp4)
+
+## ANSI Sequences
 
 - ANSI was the first standard
 - Colors, Cursor movement, etc
@@ -203,13 +210,7 @@ all that said, no one calls them ecma-48 sequenences
 
 ![autoplay mute loop](bg.mp4)
 
-# ANSI sequences
-
----
-
-![autoplay mute loop](bg.mp4)
-
-## ANSI sequences
+## ANSI Sequences
 
 - Usually starts with an ESC (`\e`, `^[`, `\033`, or `\x1b`)
 - Several types of sequences: ESC, CSI, OSC, DCS, APC
@@ -299,7 +300,7 @@ you can use sequin to read them :)
 
 ![autoplay mute loop](bg.mp4)
 
-# The Secure SHell
+# SSH
 
 ^ Now that we learned a bit about terminals, and ansi sequences, lets move into ssh
 to clarify, we're gonna talk about the protocol, not about openssh, the most
@@ -310,8 +311,6 @@ common server/client implementation
 ![autoplay mute loop](bg.mp4)
 
 ## SSH
-
-How it works:
 
 ```mermaid
 sequenceDiagram
@@ -1020,6 +1019,7 @@ srv, err := wish.NewServer(
 this enables the viper cobra btw
 same thing here, you'd need to do all the things you generally do with web apps,
 hashing, salting, etc, etc. keep in mind this is a simplified example only.
+electron
 
 ---
 
