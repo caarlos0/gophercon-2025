@@ -216,7 +216,7 @@ all that said, no one calls them ecma-48 sequenences
 - Several types of sequences: ESC, CSI, OSC, DCS, APC
 - New sequences are still being created
 
-[.code-highlight: none]
+[.code-highlight: all]
 [.code-highlight: 1]
 [.code-highlight: 2]
 [.code-highlight: 3]
@@ -431,7 +431,7 @@ flowchart LR
 
 ## Bubble Tea
 
-[.code-highlight: none]
+[.code-highlight: all]
 [.code-highlight: 1]
 [.code-highlight: 3]
 [.code-highlight: 5]
@@ -457,7 +457,7 @@ we force model to conform to tea.ViewModel{}
 
 ## Bubble Tea
 
-[.code-highlight: none]
+[.code-highlight: all]
 [.code-highlight: 1]
 [.code-highlight: 4-5]
 [.code-highlight: 8-10]
@@ -486,7 +486,7 @@ the quitting bool there will be important later :)
 
 ## Bubble Tea
 
-[.code-highlight: none]
+[.code-highlight: all]
 [.code-highlight: 1,10]
 [.code-highlight: 2,6]
 [.code-highlight: 3-5]
@@ -517,7 +517,7 @@ ideally, IO should happen only inside tea.Cmds
 
 ## Bubble Tea
 
-[.code-highlight: none]
+[.code-highlight: all]
 [.code-highlight: 1]
 [.code-highlight: 4-5]
 [.code-highlight: 6-9]
@@ -557,7 +557,7 @@ something more dynamic (like diff colors for light/dark bg)
 
 ## Bubble Tea
 
-[.code-highlight: none]
+[.code-highlight: all]
 [.code-highlight: 2,5]
 [.code-highlight: 8-12]
 [.code-highlight: all]
@@ -599,7 +599,7 @@ it aint much, but its honest work
 
 Let's add support for suspend, a spinner, and a text input as well:
 
-[.code-highlight: none]
+[.code-highlight: all]
 [.code-highlight: 2,3]
 [.code-highlight: 8,9,11]
 [.code-highlight: all]
@@ -628,7 +628,7 @@ we can import the bubbles spinner pkg, and add its model into our own.
 
 ## Bubble Tea
 
-[.code-highlight: none]
+[.code-highlight: all]
 [.code-highlight: 2,5]
 [.code-highlight: 4]
 [.code-highlight: all]
@@ -651,7 +651,7 @@ are triggered.
 
 ## Bubble Tea
 
-[.code-highlight: none]
+[.code-highlight: all]
 [.code-highlight: 2,16]
 [.code-highlight: 3,4]
 [.code-highlight: 5,6,13]
@@ -686,7 +686,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 ## Bubble Tea
 
-[.code-highlight: none]
+[.code-highlight: all]
 [.code-highlight: 3]
 [.code-highlight: 5]
 [.code-highlight: 6,7]
@@ -736,7 +736,7 @@ change our model to implement cursormodel instead
 
 ## Bubble Tea
 
-[.code-highlight: none]
+[.code-highlight: all]
 [.code-highlight: 1-4]
 [.code-highlight: 6]
 [.code-highlight: 8]
@@ -783,7 +783,7 @@ join both the spinner and the stopwatch
 
 # Bubble Tea
 
-[.code-highlight: none]
+[.code-highlight: all]
 [.code-highlight: 2-4]
 [.code-highlight: 7,8]
 [.code-highlight: all]
@@ -876,7 +876,7 @@ but first, we'll need these imports
 
 Creating a server:
 
-[.code-highlight: none]
+[.code-highlight: all]
 [.code-highlight: 1,11]
 [.code-highlight: 2]
 [.code-highlight: 3]
@@ -939,7 +939,7 @@ var noSuspend = tea.WithFilter(func(_ tea.Model, msg tea.Msg) tea.Msg {
 
 Starting the server:
 
-[.code-highlight: none]
+[.code-highlight: all]
 [.code-highlight: 1]
 [.code-highlight: 2-5]
 [.code-highlight: all]
@@ -970,7 +970,7 @@ server closed happens when the server is stopped, and its not bad in this partic
 
 ## Wish: public key auth
 
-[.code-highlight: none]
+[.code-highlight: all]
 [.code-highlight: 1-3]
 [.code-highlight: 7-10]
 [.code-highlight: all]
@@ -1027,7 +1027,7 @@ electron
 
 ## Wish: keyboard interactive auth
 
-[.code-highlight: none]
+[.code-highlight: all]
 [.code-highlight: 3,19]
 [.code-highlight: 5,13]
 [.code-highlight: 6]
