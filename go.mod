@@ -1,6 +1,6 @@
 module github.com/caarlos0/gophercon-talk
 
-go 1.23.0
+go 1.24.0
 
 toolchain go1.24.1
 
@@ -12,7 +12,7 @@ require (
 	github.com/charmbracelet/ssh v0.0.0-20250429213052-383d50896132
 	github.com/charmbracelet/wish/v2 v2.0.0-20250504202143-30cca573b960
 	github.com/charmbracelet/x/ansi v0.9.2
-	golang.org/x/crypto v0.37.0
+	golang.org/x/crypto v0.45.0
 )
 
 require (
@@ -36,5 +36,5 @@ require (
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	golang.org/x/exp v0.0.0-20250408133849-7e4ce0ab07d0 // indirect
 	golang.org/x/sync v0.13.0 // indirect
-	golang.org/x/sys v0.32.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
 )
